@@ -85,6 +85,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     --- @param willDefer boolean
     local function playSelectedFromPlayer(sound, willDefer)
         -- delay being real ENSURES that min and max are met.
+        -- TODO: add some convars to have a default if delay not specific. Or just to override.
         local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
 
         timer.Simple(waitTime, function()
@@ -152,4 +153,43 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         JaVox.State:setPlayerLastUnique(playerEntIndex, name)
         playSelectedFromPlayer(soundToPlay, false)
     end
+end
+
+---Emits a simple callout from a player.
+---@param player Player
+---@param calloutName string
+---@return JaVoxError?
+function JaVox.Director:emitCalloutFromPlayer(player, calloutName)
+    if ! player then return JaVox:errorWithMessage("running callouts require player object.") end
+    if ! calloutName then
+        return JaVox:errorWithMessage(string.format(
+            "Emitting callout from host '%s' failed beacuse calloutName is missing.", player:Nick()))
+    end
+
+    local eid = player:EntIndex()
+    local lastPlayedCallout = JaVox.State:getPlayerLastCallout(eid)
+
+    if lastPlayedCallout ~= nil then
+        player:StopSound(lastPlayedCallout)
+        JaVox.State:setPlayerLastCallout(eid, nil)
+    end
+
+    local playerCurrentPlaying = JaVox.State:getPlayerCurrentAudio(eid)
+    if playerCurrentPlaying then
+        player:StopSound(playerCurrentPlaying)
+        JaVox.State:setPlayerCurrentAudio(eid, nil)
+        JaVox.State:setPlayerQueuedNext(eid, nil)
+    end
+
+    local playerPreset = player:GetNWString(JAVOX_PRESET, nil)
+    if ! playerPreset then
+        return print("No player preset")
+    end
+
+    local callout = JaVox.Crud:getCalloutsFromModule(playerPreset)
+    local calloutObj = callout[calloutName];
+    if ! calloutObj then return print("No callout called " .. calloutName) end
+
+    local randomSelection = table.Random(calloutObj.audioFiles)
+    player:EmitSound(randomSelection) -- TODO: Volume, pitch, etc. variations. new vary() function to make it easy.
 end
