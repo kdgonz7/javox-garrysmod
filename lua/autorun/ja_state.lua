@@ -9,7 +9,11 @@ JaVox.State = JaVox.State or {
 --- @field currentAudio string?
 --- @field nextAudio string?
 --- @field lastUniqueSound string?
+--- @field callout JaVoxState.CalloutInfo
 --- @field playPool PlayPool
+
+--- @class JaVoxState.CalloutInfo
+--- @field lastCallout string?
 
 ---@class PlayPool
 ---@field action string?
@@ -25,6 +29,9 @@ function JaVox.State:registerPlayer(player)
         currentAudio = nil,
         nextAudio = nil,
         lastUniqueSound = nil,
+        callout = {
+            lastCallout = nil
+        },
         playPool = {
             action = nil,
             queue = {},
@@ -72,6 +79,20 @@ end
 ---@return string?
 function JaVox.State:getPlayerLastUnique(playerIndex)
     return self.players[playerIndex].lastUniqueSound
+end
+
+---Sets a player's last callout
+---@param playerIndex number
+---@param callout string?
+function JaVox.State:setPlayerLastCallout(playerIndex, callout)
+    self.players[playerIndex].callout.lastCallout = callout
+end
+
+---Returns a player's last callout
+---@param playerIndex number
+---@return string?
+function JaVox.State:getPlayerLastCallout(playerIndex)
+    return self.players[playerIndex].callout.lastCallout
 end
 
 ---Inserts an audio voice line into the play pool of `playerIndex`.
