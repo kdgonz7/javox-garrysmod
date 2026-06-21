@@ -251,10 +251,9 @@ concommand.Add("-java_callout", function()
     gui.EnableScreenClicker(false)
 
     if options[selected] and selected <= #options then
-        -- net.Start("JaVox_Callout")
-        -- net.WriteString(options[selected])
-        -- net.SendToServer()
-        print(options[selected])
+        net.Start("JaVox_EmitCallout")
+        net.WriteString(options[selected])
+        net.SendToServer()
     end
 
     selected = 1
