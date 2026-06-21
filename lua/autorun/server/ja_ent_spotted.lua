@@ -3,7 +3,7 @@ print("Entity spotted module loaded!")
 local function isSomething(ent)
     return ent:IsPlayer() or ent:IsNPC() or ent:IsNextBot()
 end
-
+-- TODO: specific ones, just like killed.
 hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
     if key == IN_ATTACK2 then
         local aimedAtEntities = ents.FindInCone(ply:EyePos(), ply:GetAimVector(), 5000, math.cos(math.rad(15)))
