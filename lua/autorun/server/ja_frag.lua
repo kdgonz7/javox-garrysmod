@@ -1,3 +1,5 @@
+print("Entity frag module loaded!")
+
 local GRENADES = {
     10, -- classic HL2
     45  -- arc9 frag
