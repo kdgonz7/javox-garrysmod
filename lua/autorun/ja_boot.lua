@@ -63,16 +63,51 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                     }
                 },
 
-                ["specific"] = {
-                    ["npc_metropolice"] = {
-                        priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-                        delay = {
-                            min = 0.2,
-                            max = 0.7
-                        },
-                        audioFiles = {
-                            "javox/fa.wav"
-                        }
+                ["entSpottedGeneric"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    delay = {
+                        min = 0.2,
+                        max = 0.9,
+                    },
+                    audioFiles = {
+                        "javox/contact1.wav",
+                        "javox/contact2.wav",
+                        "javox/contact3.wav",
+                        "javox/contact4.wav",
+                        "javox/contact5.wav",
+                        "javox/contact6.wav",
+                        "javox/contact7.wav",
+                        "javox/contact8.wav",
+                        "javox/contact9.wav",
+                        "javox/contact10.wav",
+                        "javox/contact11.wav",
+                        "javox/contact12.wav",
+                        "javox/contact13.wav",
+                        "javox/contact14.wav",
+                    }
+                }
+            },
+
+            ["self"] = {
+                ["fallDamage"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    delay = {
+                        min = 0.05,
+                        max = 0.1,
+                        chanceToNotPlay = 3,
+                    },
+                    audioFiles = {
+                        "javox/wounded1.wav",
+                        "javox/wounded2.wav",
+                        "javox/wounded3.wav",
+                        "javox/wounded4.wav",
+                        "javox/wounded5.wav",
+                        "javox/wounded6.wav",
+                        "javox/wounded7.wav",
+                        "javox/wounded8.wav",
+                        "javox/wounded9.wav",
+                        "javox/wounded10.wav",
+                        "javox/wounded11.wav",
                     }
                 }
             }
