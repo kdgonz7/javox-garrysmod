@@ -35,14 +35,14 @@ function JaVox.Crud:getActionFromModule(moduleName, action)
 
 
     ---@diagnostic disable-next-line: param-type-mismatch
-    return self:resolve(moduleObj, action)
+    return self:resolveActions(moduleObj, action)
 end
 
 ---comment
 ---@param moduleObj PlayerVoxModule
 ---@param action string
 ---@return PlayerVoxAction|JaVoxError?
-function JaVox.Crud:resolve(moduleObj, action)
+function JaVox.Crud:resolveActions(moduleObj, action)
     --- @cast action string
     local actParts = string.Split(action, ".")
 
@@ -81,4 +81,11 @@ function JaVox.Crud:resolve(moduleObj, action)
 
     --- @cast potentialModule PlayerVoxAction
     return potentialModule
+end
+
+---Returns all callouts from module `name`
+---@param name any
+---@return table<string, PlayerVoxCallout[]>
+function JaVox.Crud:getCalloutsFromModule(name)
+    return JaVox.vox[name].callouts
 end
