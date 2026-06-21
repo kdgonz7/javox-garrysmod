@@ -43,6 +43,8 @@ end
 ---@param action string
 ---@return PlayerVoxAction|JaVoxError?
 function JaVox.Crud:resolveActions(moduleObj, action)
+    if ! action then return print("action null in resolve") end
+
     --- @cast action string
     local actParts = string.Split(action, ".")
 
