@@ -1,5 +1,9 @@
+---@diagnostic disable: undefined-field
 print("Entity spotted module loaded!")
 
+---Checks if entity is something fleshy/alive
+---@param ent Entity
+---@return boolean
 local function isSomething(ent)
     return ent:IsPlayer() or ent:IsNPC() or ent:IsNextBot()
 end
