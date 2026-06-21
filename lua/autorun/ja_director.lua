@@ -75,7 +75,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     end
 
 
-    if ! soundToPlay then return print("soundToPlay is null") end
+    if ! soundToPlay then return end
     --- @cast soundToPlay string
 
     -- god of coding is not watching
@@ -84,14 +84,28 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     --- @param sound string
     --- @param willDefer boolean
     local function playSelectedFromPlayer(sound, willDefer)
-        -- delay being real ENSURES that min and max are met.
+        -- Delay & Chance to not play setup
+        --          1 in chanceToNotPlay chance that it won't play (if chanceToNotPlay exists)
+        --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
         -- TODO: add some convars to have a default if delay not specific. Or just to override.
         local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
 
+        -- last one. random chance to not play
+        if actionObject.delay.chanceToNotPlay then
+            if math.random(actionObject.delay.chanceToNotPlay) == 1 then
+                return
+            end
+        end
+
+        -- timer phase:
+        --      Call a timer that checks if there's audio playing and there's a plan to defer it.
+        --      Stop sound if this should take precedence. Emit the sound, check the duration and set a second timer
+        --          to cancel it and run a next one in the queue (if there is one, and if PLAY_ONCE_WITHOUT_DEFERRAL isn't used.)
         timer.Simple(waitTime, function()
+            if ! IsValid(player) then return end
             local currentAudio = JaVox.State:getPlayerCurrentAudio(playerEntIndex)
 
-            if willDefer and currentAudio then return print("Already have playing audio") end
+            if willDefer and currentAudio then return end
             if ! willDefer and currentAudio then
                 player:StopSound(currentAudio)
             end
@@ -111,6 +125,8 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
             --- and then remove that one. It checks for a reserve sound, then plays it, repeating this process.
             JaVox.State:setPlayerCurrentAudio(playerEntIndex, sound)
             timer.Simple(durationOfSound, function()
+                if ! IsValid(player) then return end
+
                 JaVox.State:setPlayerCurrentAudio(playerEntIndex, nil)
                 local reserve = JaVox.State:getPlayerQueuedNext(playerEntIndex)
 
@@ -183,13 +199,14 @@ function JaVox.Director:emitCalloutFromPlayer(player, calloutName)
 
     local playerPreset = player:GetNWString(JAVOX_PRESET, nil)
     if ! playerPreset then
-        return print("No player preset")
+        return
     end
 
     local callout = JaVox.Crud:getCalloutsFromModule(playerPreset)
     local calloutObj = callout[calloutName];
     if ! calloutObj then return print("No callout called " .. calloutName) end
 
+    ---@diagnostic disable-next-line: undefined-field
     local randomSelection = table.Random(calloutObj.audioFiles)
     player:EmitSound(randomSelection) -- TODO: Volume, pitch, etc. variations. new vary() function to make it easy.
 end
