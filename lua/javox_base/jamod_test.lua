@@ -1,0 +1,2 @@
+AddCSLuaFile()
+print("Hello, world!")
