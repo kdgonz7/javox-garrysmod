@@ -44,14 +44,14 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
             }
         },
         callouts = {
-            ["Throwing Grenade!"] = {
+            ["Grenade"] = {
                 audioFiles = {
-                    "frag1.wav"
+                    "javox/frag1.wav"
                 }
             },
-            ["Run away!"] = {
+            ["Frag"] = {
                 audioFiles = {
-                    "frag1.wav"
+                    "javox/frag1.wav"
                 }
             },
         }
