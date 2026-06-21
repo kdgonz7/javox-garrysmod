@@ -12,6 +12,7 @@ AudioPriority = {
 	PLAY_UNIQUELY = 4,
 
 	--- The action will play, and ignore any input until completed (or estimated completion, if sound files are not compatible)
+	--- this is the `default` sound option on all of the filesystem-based actions.
 	PLAY_ONCE_WITHOUT_DEFERRAL = 5,
 }
 
@@ -40,11 +41,10 @@ AudioPriority = {
 --- @field author string | string[] ? The author(s) of the Vox module.
 --- @field description string? The description of the Vox itself. (game it's from, etc.)
 --- @field actions table<string, PlayerVoxAction|table<PlayerVoxAction>> The actions that can be ran by this module. Functions provide abstractions to access these. Note that actions are designed to be expanded upon, and follow an `any in any out` architecture. A vox module can define an abstract vocal execution and have another addon of the same owner run it.
---- @field callouts PlayerVoxCallout[]
+--- @field callouts table<string, PlayerVoxCallout>
 --- @field tags? string[] Tags for the module.
 
 ---@class PlayerVoxCallout
----@field displayName string
 ---@field audioFiles string[] The audio files that will be randomly selected from when this callout is selected.
 
 --- @class JavoLuaModule
