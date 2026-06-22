@@ -3,6 +3,7 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
 
     JaVox:registerModule("test", {
         displayName = "Test Module",
+        description = "INS2 Voicelines.",
         actions = {
             ["weaponry"] = {
                 ["reload"] = {
@@ -40,7 +41,16 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                         min = 0.3,
                         max = 1,
                         chanceToNotPlay = 4,
-                    }
+                    },
+
+                    -- throttle grenadeOut after 1 callout, for ~2 seconds
+                    throttle = {
+                        after = 1,
+                        waitTime = {
+                            min = 1,
+                            max = 2,
+                        },
+                    },
                 },
             },
 
@@ -128,16 +138,19 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
     })
     JaVox:registerModule("test2", {
         displayName = "Test Module 2",
+        author = {},
         actions = {},
         callouts = {}
     })
     JaVox:registerModule("test3", {
         displayName = "Test Module 23",
+        author = { "Kai D.", "Johnny A." },
         actions = {},
         callouts = {}
     })
     JaVox:registerModule("test3", {
         displayName = "Test Module 24",
+        author = "Dontae",
         actions = {},
         callouts = {}
     })
