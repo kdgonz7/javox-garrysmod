@@ -97,7 +97,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
 
         -- last one. random chance to not play
-        if actionObject.delay.chanceToNotPlay then
+        if actionObject.delay and actionObject.delay.chanceToNotPlay then
             if math.random(actionObject.delay.chanceToNotPlay) == 1 then
                 return
             end
