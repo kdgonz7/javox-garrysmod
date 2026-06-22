@@ -75,6 +75,13 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     end
 
 
+    -- Important: defines the throttling rule.
+    --  If player throttling then end emittion
+    --  FIXME: maybe put this in the first function instead
+    if JaVox.State:playerIsThrottling(playerEntIndex) then
+        return
+    end
+
     if ! soundToPlay then return end
     --- @cast soundToPlay string
 
@@ -96,6 +103,34 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
                 return
             end
         end
+
+        -- if action has throttling attached
+        if actionObject.throttle then
+            if JaVox.State:playerIsThrottling(playerEntIndex) then
+                return print("Still going for action", name)
+            end
+            PrintTable(JaVox.State.players[playerEntIndex])
+            -- if we are in that a throttle-worthy action, increment throttle points
+            -- then check if that's our limit. if so, then we begin throttling (waiting)
+            -- and set a timer to clear the throttling.
+            if JaVox.State:isThrottlingAction(playerEntIndex, name) then
+                JaVox.State:incrementThrottlePoints(playerEntIndex)
+
+                if JaVox.State:playerShouldThrottle(playerEntIndex) then
+                    JaVox.State:beginThrottle(playerEntIndex, name, actionObject.throttle)
+
+                    local randomTimeThrottle = math.random(actionObject.throttle.min, actionObject.throttle.max)
+                    timer.Simple(randomTimeThrottle, function()
+                        JaVox.State:clearThrottle(playerEntIndex)
+                    end)
+
+                    return
+                end
+            end
+
+            JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
+        end
+        -- throttle check ended.
 
         -- timer phase:
         --      Call a timer that checks if there's audio playing and there's a plan to defer it.
