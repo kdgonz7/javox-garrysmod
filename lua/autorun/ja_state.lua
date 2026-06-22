@@ -11,9 +11,16 @@ JaVox.State = JaVox.State or {
 --- @field lastUniqueSound string?
 --- @field callout JaVoxState.CalloutInfo
 --- @field playPool PlayPool
+--- @field throttleState JaVoxState.ThrottleState
 
 --- @class JaVoxState.CalloutInfo
 --- @field lastCallout string?
+
+--- @class JaVoxState.ThrottleState
+--- @field isThrottling boolean
+--- @field actionThrottling string?
+--- @field throtBudgMax number? How many times to play before throt
+--- @field throtBudgCur number? How many times have we played this action
 
 ---@class PlayPool
 ---@field action string?
@@ -29,13 +36,19 @@ function JaVox.State:registerPlayer(player)
         currentAudio = nil,
         nextAudio = nil,
         lastUniqueSound = nil,
+
         callout = {
             lastCallout = nil
         },
+
         playPool = {
             action = nil,
             queue = {},
         },
+
+        throttleState = {
+            isThrottling = false,
+        }
     }
 end
 
@@ -100,6 +113,66 @@ end
 ---@param sound string
 function JaVox.State:insertIntoPlayPool(playerIndex, sound)
     table.insert(self.players[playerIndex].playPool, sound)
+end
+
+---Begins keeping track of player throttle state
+---@param playerIndex number
+---@param action string
+---@param throttleSettings ThrottleSettings
+function JaVox.State:registerThrottlingState(playerIndex, action, throttleSettings)
+    self.players[playerIndex].throttleState = {
+        isThrottling = false,
+        actionThrottling = action,
+        throtBudgCur = 0,
+        throtBudgMax = throttleSettings.after
+    }
+
+    print("Registered throt for act")
+end
+
+---Begins throttling a player's action at action.
+---@param playerIndex number
+---@param action string
+---@param throttleSettings ThrottleSettings
+function JaVox.State:beginThrottle(playerIndex, action, throttleSettings)
+    self.players[playerIndex].throttleState = {
+        isThrottling = true,
+        actionThrottling = action,
+        throtBudgMax = throttleSettings.after,
+        throtBudgCur = 0,
+    }
+    --[[ NOTE: existing code if above doesn't work.
+    .isThrottling = true
+    self.players[playerIndex].throttleState.actionThrottling = action
+    self.players[playerIndex].throttleState.throtBudgMax = throttleSettings.after
+    self.players[playerIndex].throttleState.throtBudgCur = 0
+    ]]
+end
+
+function JaVox.State:endThrottle(playerIndex)
+    self:clearThrottle(playerIndex)
+end
+
+function JaVox.State:clearThrottle(playerIndex)
+    self.players[playerIndex].throttleState = {
+        isThrottling = false,
+    }
+end
+
+function JaVox.State:playerIsThrottling(playerIndex)
+    return self.players[playerIndex].throttleState.isThrottling
+end
+
+function JaVox.State:isThrottlingAction(playerIndex, action)
+    return self.players[playerIndex].throttleState.actionThrottling == action
+end
+
+function JaVox.State:incrementThrottlePoints(playerIndex)
+    self.players[playerIndex].throttleState.throtBudgCur = self.players[playerIndex].throttleState.throtBudgCur + 1
+end
+
+function JaVox.State:playerShouldThrottle(playerIndex)
+    return self.players[playerIndex].throttleState.throtBudgCur == self.players[playerIndex].throttleState.throtBudgMax
 end
 
 ---Pops and returns a **RANDOM** sound from the play pool of playerIndex.
