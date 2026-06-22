@@ -24,6 +24,12 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                     delay = {
                         min = 0.2,
                         max = 0.7,
+                    },
+
+                    throttle = {
+                        after = 2,
+                        min = 6,
+                        max = 7,
                     }
                 },
 
