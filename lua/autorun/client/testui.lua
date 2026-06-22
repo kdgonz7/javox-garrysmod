@@ -51,7 +51,7 @@ local colorTheme = {
     cardColor = Color(68, 64, 60),
 }
 
-
+-- TODO: descriptions, authors, tags. not hard.
 
 concommand.Add("ja_cards_ui", function(ply, cmd, args, argStr)
     if IsValid(MyFrame) then MyFrame:Remove() end
