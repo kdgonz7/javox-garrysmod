@@ -5,6 +5,15 @@ JaVox = {
 	modules = {},
 } -- pure, nude javox.            lol
 
+local JaVoxLogColor = Color(236, 102, 13)
+local files = file.Find("javox/*.lua", "LUA")
+for _, fname in ipairs(files) do
+	local trueFile = string.format("javox/%s", fname)
+	AddCSLuaFile(trueFile)
+	include(trueFile)
+	MsgC(JaVoxLogColor, "[JAVOX]", color_white, " loaded internal module: ", Color(111, 212, 255), trueFile, "\n")
+end
+
 --- Registers a module with a given payload into the global JaVox object. Note to future developers, or myself:
 --- These **have** to be questionable because lua is unsafe and gmod developers just wanna have fun.
 --- @param rawName string?
