@@ -62,8 +62,9 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                 ["entKillGeneric"] = {
                     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                     delay = {
-                        min = 0.3,
-                        max = 1,
+                        min = 0.1,
+                        max = 0.3,
+                        chanceToNotPlay = 2,
                     },
                     audioFiles = {
                         "javox/target1.wav",
@@ -107,9 +108,9 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                 ["fallDamage"] = {
                     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                     delay = {
-                        min = 0.05,
-                        max = 0.1,
-                        chanceToNotPlay = 3,
+                        min = 0.1,
+                        max = 0.2,
+                        chanceToNotPlay = 2,
                     },
                     audioFiles = {
                         "javox/wounded1.wav",
