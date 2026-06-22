@@ -60,3 +60,8 @@ function ModBuilder:RegisterAction(actionName, config)
 
     return self
 end
+
+function ModBuilder:RegisterCategory(actionName, config)
+    self.actions[actionName] = config
+    return self
+end
