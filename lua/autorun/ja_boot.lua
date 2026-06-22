@@ -39,6 +39,7 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                     delay = {
                         min = 0.3,
                         max = 1,
+                        chanceToNotPlay = 4,
                     }
                 },
             },
@@ -124,5 +125,36 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                 }
             },
         }
+    })
+    JaVox:registerModule("test2", {
+        displayName = "Test Module 2",
+        actions = {},
+        callouts = {}
+    })
+    JaVox:registerModule("test3", {
+        displayName = "Test Module 23",
+        actions = {},
+        callouts = {}
+    })
+    JaVox:registerModule("test3", {
+        displayName = "Test Module 24",
+        actions = {},
+        callouts = {}
+    })
+
+    JaVox:registerModule("test24", {
+        displayName = "Test Modu12312le 2",
+        actions = {},
+        callouts = {}
+    })
+    JaVox:registerModule("test13133", {
+        displayName = "Test Module231132 23",
+        actions = {},
+        callouts = {}
+    })
+    JaVox:registerModule("test1313133", {
+        displayName = "Test Modul131313e 24",
+        actions = {},
+        callouts = {}
     })
 end)
