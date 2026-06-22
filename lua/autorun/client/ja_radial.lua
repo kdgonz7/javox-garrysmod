@@ -37,6 +37,7 @@ end
 hook.Add("HUDPaint", "PVox_RadialMenu", function()
     local Us = LocalPlayer()
     if not Us:Alive() then return end
+    if not JaVox then return end
 
     -- Animate menu alpha
     local approachSpeed = FrameTime() * 6
