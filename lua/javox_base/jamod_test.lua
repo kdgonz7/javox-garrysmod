@@ -1,2 +1,0 @@
-AddCSLuaFile()
-print("Hello, world!")
