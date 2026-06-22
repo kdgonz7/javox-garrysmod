@@ -130,3 +130,7 @@ function JaVox.State:popFromPlayPoolOf(playerIndex, withSounds, forAction)
 
     return table.remove(pool, #pool)
 end
+
+function JaVox.State:clearPlayerQueue(playerIndex)
+    table.Empty(self.players[playerIndex].playPool.queue)
+end
