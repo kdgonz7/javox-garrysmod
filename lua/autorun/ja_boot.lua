@@ -129,50 +129,121 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
             }
         },
         callouts = {
-            ["Grenade"] = {
-                audioFiles = {
-                    "javox/frag1.wav"
-                }
-            },
-            ["Frag"] = {
-                audioFiles = {
-                    "javox/frag1.wav"
-                }
-            },
+            ["Reloading!"] = "weaponry.reload",
+            ["Entity Killed"] = "ents.entKillGeneric",
         }
     })
-    JaVox:registerModule("test2", {
-        displayName = "Test Module 2",
-        author = {},
-        actions = {},
-        callouts = {}
-    })
-    JaVox:registerModule("test3", {
-        displayName = "Test Module 23",
-        author = { "Kai D.", "Johnny A." },
-        actions = {},
-        callouts = {}
-    })
-    JaVox:registerModule("test3", {
-        displayName = "Test Module 24",
-        author = "Dontae",
-        actions = {},
-        callouts = {}
-    })
 
-    JaVox:registerModule("test24", {
-        displayName = "Test Modu12312le 2",
-        actions = {},
-        callouts = {}
-    })
-    JaVox:registerModule("test13133", {
-        displayName = "Test Module231132 23",
-        actions = {},
-        callouts = {}
-    })
-    JaVox:registerModule("test1313133", {
-        displayName = "Test Modul131313e 24",
-        actions = {},
-        callouts = {}
+    JaVox:registerModule("combine-soldier", {
+        displayName = "Stock Combine Soldier JaVOX",
+        author = "mimi banks",
+        description = "Push up, Push up!",
+        actions = {
+            ["ents"] = {
+                ["entSpottedGeneric"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    delay = {
+                        min = 0.2,
+                        max = 0.9,
+                    },
+
+                    audioFiles = {
+                        "npc/combine_soldier/vo/contact.wav",
+                        "npc/combine_soldier/vo/contactconfim.wav",
+                        "npc/combine_soldier/vo/contactconfirmprosecuting.wav",
+                    }
+                },
+
+                ["entKillGeneric"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    delay = {
+                        min = 0.2,
+                        max = 0.9,
+                    },
+                    audioFiles = {
+                        "npc/combine_soldier/vo/contained.wav",
+                        "npc/combine_soldier/vo/containmentproceeding.wav",
+                        "npc/combine_soldier/vo/overwatchreportspossiblehostiles.wav",
+                    }
+                }
+            },
+            ["self"] = {
+                ["fallDamage"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    audioFiles = {
+                        "HL1/fvox/health_dropping.wav",
+                        "HL1/fvox/health_dropping2.wav"
+                    },
+                    delay = {
+                        min = 0.2,
+                        max = 0.9,
+                    },
+                    throttle = {
+                        after = 2,
+                        min = 1,
+                        max = 3,
+                    }
+                }
+            },
+            ["callouts"] = {
+                ["stayalert"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    audioFiles = {
+                        "npc/combine_soldier/vo/stayalert.wav",
+                        "npc/combine_soldier/vo/stayalertreportsightlines.wav",
+
+                    }
+                },
+                ["standingby"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    audioFiles = {
+                        "npc/combine_soldier/vo/standingby].wav",
+                    }
+                },
+            },
+            ["weaponry"] = {
+                ["reload"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    audioFiles = {
+                        "npc/combine_soldier/vo/coverme.wav",
+                        "npc/combine_soldier/vo/cover.wav",
+                        "npc/combine_soldier/vo/displace.wav",
+                        "npc/combine_soldier/vo/dash.wav",
+                    },
+                    delay = {
+                        min = 0.3,
+                        max = 0.5,
+                    },
+                    throttle = {
+                        after = 4,
+                        min = 1,
+                        max = 2,
+                    },
+                },
+
+                ["grenadeOut"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    audioFiles = {
+                        "npc/combine_soldier/vo/dagger.wav",
+                        "npc/combine_soldier/vo/flash.wav",
+                        "npc/combine_soldier/vo/displace.wav",
+                        "npc/combine_soldier/vo/dash.wav",
+                    },
+                    delay = {
+                        min = 0.3,
+                        max = 0.5,
+                    },
+                    throttle = {
+                        after = 4,
+                        min = 1,
+                        max = 2,
+                    },
+                }
+            }
+        },
+        callouts = {
+            ["Stay Alert"] = "callouts.stayalert",
+            ["Standing By"] = "callouts.standingby",
+        }
     })
 end)
