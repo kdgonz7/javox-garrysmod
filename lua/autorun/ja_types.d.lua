@@ -23,6 +23,13 @@ AudioPriority = {
 --- @field pitch number? Pitch modification for the sound. (0-255)
 --- @field reach number? How far the sound reaches. Default 100.
 --- @field delay DelaySettings? How much the sound should delay.
+--- @field throttle ThrottleSettings? Settings for defining a sound's throttle action.
+
+--- @class ThrottleSettings
+--- @field min number The minimum amount of time it will throttle for.
+--- @field max number The maximum amount of time it will throttle for.
+--- @field after number How many calls of this particular action does it take to require throttling?
+--- @field willAffectOtherActions boolean? Will this throttle affect the calling of other actions?
 
 --- @class DelaySettings
 --- @field min number The minimum time it should take to play an audio.
