@@ -107,9 +107,10 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         -- if action has throttling attached
         if actionObject.throttle then
             if JaVox.State:playerIsThrottling(playerEntIndex) then
-                return print("Still going for action", name)
+                print("Still going for action", name)
+                return
             end
-            PrintTable(JaVox.State.players[playerEntIndex])
+
             -- if we are in that a throttle-worthy action, increment throttle points
             -- then check if that's our limit. if so, then we begin throttling (waiting)
             -- and set a timer to clear the throttling.
@@ -120,15 +121,16 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
                     JaVox.State:beginThrottle(playerEntIndex, name, actionObject.throttle)
 
                     local randomTimeThrottle = math.random(actionObject.throttle.min, actionObject.throttle.max)
+
                     timer.Simple(randomTimeThrottle, function()
                         JaVox.State:clearThrottle(playerEntIndex)
                     end)
 
                     return
                 end
+            else
+                JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
             end
-
-            JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
         end
         -- throttle check ended.
 
