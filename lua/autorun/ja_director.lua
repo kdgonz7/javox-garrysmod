@@ -7,7 +7,6 @@
 
 --- @class JaVoxDirector
 JaVox.Director = JaVox.Director or {}
-
 JAVOX_PRESET = "JaVox_Preset"
 
 --- This function will ensure a player has the necessary NW variables. Defines the following:
@@ -219,31 +218,17 @@ function JaVox.Director:emitCalloutFromPlayer(player, calloutName)
             "Emitting callout from host '%s' failed beacuse calloutName is missing.", player:Nick()))
     end
 
-    local eid = player:EntIndex()
-    local lastPlayedCallout = JaVox.State:getPlayerLastCallout(eid)
+    local preset = player:GetNWString(JAVOX_PRESET, nil)
+    if ! preset then return end
 
-    if lastPlayedCallout ~= nil then
-        player:StopSound(lastPlayedCallout)
-        JaVox.State:setPlayerLastCallout(eid, nil)
-    end
+    local calloutResolution = JaVox.Crud:resolveCallout(preset, calloutName)
+    self:emitActionFromPlayer(player, calloutResolution)
+end
 
-    local playerCurrentPlaying = JaVox.State:getPlayerCurrentAudio(eid)
-    if playerCurrentPlaying then
-        player:StopSound(playerCurrentPlaying)
-        JaVox.State:setPlayerCurrentAudio(eid, nil)
-        JaVox.State:setPlayerQueuedNext(eid, nil)
-    end
-
-    local playerPreset = player:GetNWString(JAVOX_PRESET, nil)
-    if ! playerPreset then
-        return
-    end
-
-    local callout = JaVox.Crud:getCalloutsFromModule(playerPreset)
-    local calloutObj = callout[calloutName];
-    if ! calloutObj then return print("No callout called " .. calloutName) end
-
-    ---@diagnostic disable-next-line: undefined-field
-    local randomSelection = table.Random(calloutObj.audioFiles)
-    player:EmitSound(randomSelection) -- TODO: Volume, pitch, etc. variations. new vary() function to make it easy.
+---Registers a callout link to an action in `toMod.`
+---@param toMod string E.g. test
+---@param calloutName string E.g. "Reloading!"
+---@param calloutInternal string E.g. weaponry.reload
+function JaVox.Director:registerCallout(toMod, calloutName, calloutInternal)
+    JaVox.Crud:registerCallout(toMod, calloutName, calloutInternal)
 end

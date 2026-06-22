@@ -3,6 +3,14 @@
 --- @class JaVoxCrud The CRUD (Create, Read, Update, Delete) functionality for JaVox
 JaVox.Crud = JaVox.Crud or {}
 
+--- Use `JaVox.Director:registerCallout`. This is an internal function.
+---@param moduleName string
+---@param calloutName string
+---@param calloutAction string
+function JaVox.Crud:registerCallout(moduleName, calloutName, calloutAction)
+    JaVox.vox[moduleName].callouts[calloutName] = calloutAction
+end
+
 ---Tries to get an action module (of actions bound to sounds)
 ---@param modName string?
 function JaVox.Crud:getActionModule(modName)
@@ -87,7 +95,7 @@ end
 
 ---Returns all callouts from module `name`
 ---@param name any
----@return table<string, PlayerVoxCallout[]>
-function JaVox.Crud:getCalloutsFromModule(name)
-    return JaVox.vox[name].callouts
+---@return string
+function JaVox.Crud:resolveCallout(name, calloutName)
+    return JaVox.vox[name].callouts[calloutName]
 end
