@@ -46,10 +46,8 @@ hook.Add("Initialize", "JaVox Initialize Function", function()
                     -- throttle grenadeOut after 1 callout, for ~2 seconds
                     throttle = {
                         after = 1,
-                        waitTime = {
-                            min = 1,
-                            max = 2,
-                        },
+                        min = 3,
+                        max = 4,
                     },
                 },
             },
