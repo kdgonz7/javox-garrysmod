@@ -1,5 +1,5 @@
-local ShouldSetModel = CreateClientConVar("javox_should_set_model", "1", { FCVAR_ARCHIVE })
-local SendModelNotification = CreateClientConVar("javox_send_model_notification", "1", { FCVAR_ARCHIVE })
+local ShouldSetModel = CreateClientConVar("javox_should_set_model", "1", true)
+local SendModelNotification = CreateClientConVar("javox_send_model_notification", "1", true)
 
 local lastSelectedModel = nil
 hook.Add("Think", "ClientModelTracker", function()

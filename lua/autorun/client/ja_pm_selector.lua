@@ -39,6 +39,12 @@ concommand.Add("javox_pm_selector", function(ply, cmd, args)
         helpText:SetWrap(true)
         helpText:SetFont("JaVoxRegular")
 
+        local checkBoxLabel = vgui.Create("DCheckBoxLabel", panelFill)
+        checkBoxLabel:Dock(TOP)
+        checkBoxLabel:DockMargin(10, 10, 10, 10)
+        checkBoxLabel:SetText("Enable JaVox Playermodel Binds")
+        checkBoxLabel:SetConVar("javox_should_set_model")
+
         local panelLeft = vgui.Create("DPanel", panelFill)
         panelLeft:Dock(LEFT)
         panelLeft:SetWide(PMSelector:GetWide() / 2)
