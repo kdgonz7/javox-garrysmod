@@ -8,5 +8,5 @@ hook.Add("EntityTakeDamage", "Javox fall damage", function(target, dmg)
     if not dmg:IsFallDamage() then return end
 
     ---@diagnostic disable-next-line: param-type-mismatch
-    JaVox.Director:emitActionFromPlayer(target, "self.fallDamage")
+    JaVox.Director:emitActionFromPlayer(target, "self.damage.fall")
 end)

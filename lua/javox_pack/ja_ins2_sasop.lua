@@ -105,27 +105,30 @@ JaVox:registerModule("ins2-sas-operator", {
         },
 
         ["self"] = {
-            ["fallDamage"] = {
-                priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-                delay = {
-                    min = 0.1,
-                    max = 0.2,
-                    chanceToNotPlay = 2,
-                },
-                audioFiles = {
-                    "javox/wounded1.wav",
-                    "javox/wounded2.wav",
-                    "javox/wounded3.wav",
-                    "javox/wounded4.wav",
-                    "javox/wounded5.wav",
-                    "javox/wounded6.wav",
-                    "javox/wounded7.wav",
-                    "javox/wounded8.wav",
-                    "javox/wounded9.wav",
-                    "javox/wounded10.wav",
-                    "javox/wounded11.wav",
+            ["damage"] = {
+                ["fall"] = {
+                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                    delay = {
+                        min = 0.1,
+                        max = 0.2,
+                        chanceToNotPlay = 2,
+                    },
+                    audioFiles = {
+                        "javox/wounded1.wav",
+                        "javox/wounded2.wav",
+                        "javox/wounded3.wav",
+                        "javox/wounded4.wav",
+                        "javox/wounded5.wav",
+                        "javox/wounded6.wav",
+                        "javox/wounded7.wav",
+                        "javox/wounded8.wav",
+                        "javox/wounded9.wav",
+                        "javox/wounded10.wav",
+                        "javox/wounded11.wav",
+                    }
                 }
-            }
+            },
+
         }
     },
     callouts = {

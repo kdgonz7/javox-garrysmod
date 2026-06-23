@@ -89,14 +89,13 @@ local function loadPVOX()
                     },
                 },
 
-                ["fallDamage"] = {
+                ["damage"] = {
                     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                     audioFiles = readAllAudioFilesFromDir("pvox/" .. dirname .. "/actions/take_damage/"),
-                },
-
-                ["takeDamage"] = {
-                    priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-                    audioFiles = readAllAudioFilesFromDir("pvox/" .. dirname .. "/actions/take_damage/"),
+                    ["fall"] = {
+                        priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                        audioFiles = readAllAudioFilesFromDir("pvox/" .. dirname .. "/actions/take_damage/"),
+                    },
                 },
 
                 ["die"] = {
