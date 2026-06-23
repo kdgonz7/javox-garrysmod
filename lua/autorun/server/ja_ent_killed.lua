@@ -9,6 +9,9 @@ local BLACKLISTED = {
     -1,
 }
 
+local ENABLE_ENTITY_KILL_ACTIONS = CreateConVar("javox_enable_entity_kills", "1",
+    { FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE }, "Enable JaVox entity kill actions")
+
 print("Entity kill module loaded!")
 
 local function isSomething(ent)
@@ -17,6 +20,8 @@ end
 
 hook.Add("EntityTakeDamage", "JaVox built-in damage hook", function(target, dmg)
     if target:Health() - dmg:GetDamage() <= 0 then
+        if not ENABLE_ENTITY_KILL_ACTIONS:GetBool() then return end
+
         local inflictor = dmg:GetAttacker()
 
         if inflictor:GetNWString(JAVOX_PRESET, nil) ~= nil and inflictor:IsPlayer() then
