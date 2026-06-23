@@ -2,11 +2,15 @@ local NOD_WINDOW = 0.3       -- time window for nod
 local NOD_THRESH = 15        -- min difference
 local NOD_COUNT_REQUIRED = 3 -- number of direction changes to trigger (e.g., up -> down -> up)
 
+local NOD_ENABLED = CreateConVar("javox_nod_enabled", "1", { FCVAR_ARCHIVE }, "Enable head nod detection")
+
 -- Table to store tracking data for each player
 ---@diagnostic disable-next-line: undefined-global
 local playerNodData = playerNodData or {}
 
 hook.Add("Think", "Vox_DetectHeadNod", function()
+    if not NOD_ENABLED:GetBool() then return end
+
     local currentTime = CurTime()
 
     for _, ply in ipairs(player.GetAll()) do

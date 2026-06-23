@@ -3,11 +3,16 @@ local SHAKE_THRESH = 22        -- minimum yaw change (degrees) to count as a del
 local SHAKE_COUNT_REQUIRED = 3 -- l > r > l
 local SHAKE_THROTTLE = 2.0     -- no spamming javox
 
+local NEGATIVE_NOD_ENABLED = CreateConVar("javox_negative_nod_enabled", "1", { FCVAR_ARCHIVE },
+    "Enable head nod detection for negative responses")
+
 -- tracking data for all players on the server
 ---@diagnostic disable-next-line: undefined-global
 local playerShakeData = playerShakeData or {}
 
 hook.Add("Think", "JaVox_DetectServerHeadShake", function()
+    if not NEGATIVE_NOD_ENABLED:GetBool() then return end
+
     local currentTime = CurTime()
 
     for _, ply in ipairs(player.GetAll()) do
