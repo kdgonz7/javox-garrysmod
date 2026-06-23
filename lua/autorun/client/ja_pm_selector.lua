@@ -35,7 +35,6 @@ concommand.Add("ja_pm_selector", function(ply, cmd, args)
             "Select a model to view its details and modify its association. Once you click on a model, you will be given a popup to modify it's association.")
         helpText:SetWrap(true)
 
-        print(panelFill:GetWide()) -- cuz for some fuckass reason this isn't working \
         local panelLeft = vgui.Create("DPanel", panelFill)
         panelLeft:Dock(LEFT)
         panelLeft:SetWide(PMSelector:GetWide() / 2)

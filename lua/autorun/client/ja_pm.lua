@@ -13,8 +13,6 @@ hook.Add("Think", "ClientModelTracker", function()
 
     -- notify player of the change in preset, if it exists
     local preset = JaVox.Crud:getPlayermodelBindFor(model)
-    print(model, preset)
-    PrintTable(JaVox.binds)
     if preset then
         net.Start("JaVox_ChangePlayerPreset")
         net.WriteString(preset)
