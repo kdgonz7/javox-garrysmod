@@ -1,3 +1,23 @@
+--- A builtin module for the Combine Soldier NPC.
+--- Here's a few things for me to remember, and for vscode-todo:
+--TODO: just to remember this is here.
+
+--- This module is temporarily the de-facto standard for the actions that come with JaVox.
+--- It contains the default audio files and callouts for the Combine Soldier.
+---
+--- Since actions are dynamically dispatched, this module is meant to be a roadmap to add extra actions, all while having
+--- audio files built-in to Garry's Mod. However, this will still be put into its own addon later.
+---
+--- Actions covered so far:
+---     | ents.entSpottedGeneric | Called when the Combine Soldier spots an entity.
+---     | ents.entKillGeneric    | Called when the Combine Soldier kills an entity.
+---     | self.fallDamage        | Called when the Combine Soldier takes fall damage.
+---     | callouts.stayalert     | Called when the Combine Soldier stays alert.
+---     | callouts.standingby    | Called when the Combine Soldier is standing by.
+---     | weaponry.reload        | Called when the Combine Soldier reloads its weapon.
+---     | weaponry.grenadeOut    | Called when the Combine Soldier throws a grenade.
+
+
 -- NOTE TO SELF: this should never occur, since we're in javox/ that means the javox module is loading... well... javox
 if ! JaVox then return error("We're having some problems, Capitan Clutch!") end
 
@@ -34,6 +54,7 @@ JaVox:registerModule("combine-soldier-builtin", {
                 }
             }
         },
+
         ["self"] = {
             ["fallDamage"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
@@ -52,6 +73,7 @@ JaVox:registerModule("combine-soldier-builtin", {
                 }
             }
         },
+
         ["callouts"] = {
             ["stayalert"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
@@ -68,6 +90,7 @@ JaVox:registerModule("combine-soldier-builtin", {
                 }
             },
         },
+
         ["weaponry"] = {
             ["reload"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
@@ -77,15 +100,15 @@ JaVox:registerModule("combine-soldier-builtin", {
                     "npc/combine_soldier/vo/displace.wav",
                     "npc/combine_soldier/vo/dash.wav",
                 },
-                delay = {
-                    min = 0.3,
-                    max = 0.5,
-                },
-                throttle = {
-                    after = 1,
-                    min = 2,
-                    max = 4,
-                },
+                -- delay = {
+                --     min = 0.3,
+                --     max = 0.5,
+                -- },
+                -- throttle = {
+                --     after = 1,
+                --     min = 2,
+                --     max = 4,
+                -- },
             },
 
             ["grenadeOut"] = {
