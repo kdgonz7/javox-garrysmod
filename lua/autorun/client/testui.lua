@@ -1,6 +1,6 @@
 ---@diagnostic disable: inject-field
 
-concommand.Add("ja_test_ui", function(ply, cmd, args, argStr)
+concommand.Add("javox_test_ui", function(ply, cmd, args, argStr)
     if IsValid(MyFrame) then MyFrame:Remove() end
 
     MyFrame = vgui.Create("DFrame")

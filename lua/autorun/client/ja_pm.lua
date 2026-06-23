@@ -21,8 +21,8 @@ hook.Add("Think", "ClientModelTracker", function()
         if SendModelNotification:GetBool() then
             notification.AddLegacy(
                 "Preset changed to: " .. preset .. ' because of PM binds! (javox_should_set_model 0 to disable)',
-                NOTIFY_GENERIC,
-                5)
+                NOTIFY_HINT,
+                7)
         end
 
         lastSelectedModel = model

@@ -7,11 +7,11 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
         function(panel)
             panel:Clear()
 
-            -- button that runs ja_vox_mgr
+            -- button that runs javox_vox_mgr
             local button = vgui.Create("DButton", panel)
             button:SetText("Open JaVox Manager")
             button.DoClick = function()
-                RunConsoleCommand("ja_vox_mgr")
+                RunConsoleCommand("javox_vox_mgr")
             end
 
             button:Dock(TOP)
@@ -21,11 +21,11 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
         function(panel)
             panel:Clear()
 
-            -- button that runs ja_vox_mgr
+            -- button that runs javox_vox_mgr
             local button = vgui.Create("DButton", panel)
             button:SetText("Open JaVox PM Selector")
             button.DoClick = function()
-                RunConsoleCommand("ja_pm_selector")
+                RunConsoleCommand("javox_pm_selector")
             end
 
             button:Dock(TOP)

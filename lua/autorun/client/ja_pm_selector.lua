@@ -4,7 +4,7 @@
 --- player.Getallmodels or something to get a list of all models, associated with playermodels, you can select one and select it's association.
 --- @type nil|DFrame
 local PMSelector = nil
-concommand.Add("ja_pm_selector", function(ply, cmd, args)
+concommand.Add("javox_pm_selector", function(ply, cmd, args)
     if ! JaVox then
         Derma_Message("JaVox is not loaded!", "JaVox error", "OK")
         return
@@ -34,6 +34,7 @@ concommand.Add("ja_pm_selector", function(ply, cmd, args)
         helpText:SetText(
             "Select a model to view its details and modify its association. Once you click on a model, you will be given a popup to modify it's association.")
         helpText:SetWrap(true)
+        helpText:SetFont("JaVoxRegular")
 
         local panelLeft = vgui.Create("DPanel", panelFill)
         panelLeft:Dock(LEFT)

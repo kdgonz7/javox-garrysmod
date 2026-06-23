@@ -12,7 +12,7 @@ local colorTheme = {
     textRegularDarker = Color(212, 212, 212),
 }
 
-concommand.Add("ja_vox_mgr", function(ply, cmd, args, argStr)
+concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     if IsValid(MyFrame) then MyFrame:Remove() end
 
     MyFrame = vgui.Create("DFrame")
