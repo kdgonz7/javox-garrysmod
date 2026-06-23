@@ -115,7 +115,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         return
     end
 
-    if ! soundToPlay then return end
+    if ! soundToPlay then return print(soundToPlay, "not a sound") end
     --- @cast soundToPlay string
 
     --- Plays selected sound from player, following the delay rules.
