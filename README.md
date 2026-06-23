@@ -66,4 +66,5 @@ The differences are:
 - **JaVox has both `delay` and `throttle`,** meaning that you can not only randomly delay an audio playing, but also delay the subsequent ones too.
 - **JaVox exposes pitch, volume, and reach** for granularity and improved creative expression.
 - **JaVox boasts a highly-optimized architecture** with shuffled audio used instead of blindsided random calls.
+	- Performant State: Handles queue swapping, monolithic action management, delaying audio while maintaining perfect state, and shuffling audio for variety
 - Ping system WIP
