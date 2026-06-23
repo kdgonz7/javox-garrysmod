@@ -96,14 +96,16 @@ JaVox:registerModule("combine-soldier-builtin", {
                     "npc/combine_soldier/vo/displace.wav",
                     "npc/combine_soldier/vo/dash.wav",
                 },
+
                 delay = {
                     min = 0.3,
                     max = 0.5,
                 },
+
                 throttle = {
-                    after = 4,
-                    min = 1,
-                    max = 2,
+                    after = 1,
+                    min = 3,
+                    max = 4,
                 },
             }
         }
