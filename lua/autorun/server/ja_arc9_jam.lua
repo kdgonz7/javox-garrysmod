@@ -5,7 +5,7 @@ local ja_arc9_jam_enabled = CreateConVar("javox_arc9_jam_enabled", "1", { FCVAR_
 hook.Add("KeyPress", "JaVox ARC9 Jam Feature", function(ply, key)
     if not ja_arc9_jam_enabled:GetBool() then return end
 
-    if key == IN_ATTACK then
+    if key == IN_ATTACK or key == IN_RELOAD then
         local activeWeapon = ply:GetActiveWeapon()
 
         -- get jammed is a function from ARC9... stole it from the code
