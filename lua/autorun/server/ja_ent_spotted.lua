@@ -44,6 +44,5 @@ hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
                 aimedAtEntities[i]:SetNWBool("JaVox_Spotted", true)
             end
         end
-        PrintTable(aimedAtEntities)
     end
 end)

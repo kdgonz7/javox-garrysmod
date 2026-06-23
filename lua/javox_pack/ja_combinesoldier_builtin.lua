@@ -100,15 +100,15 @@ JaVox:registerModule("combine-soldier-builtin", {
                     "npc/combine_soldier/vo/displace.wav",
                     "npc/combine_soldier/vo/dash.wav",
                 },
-                -- delay = {
-                --     min = 0.3,
-                --     max = 0.5,
-                -- },
-                -- throttle = {
-                --     after = 1,
-                --     min = 2,
-                --     max = 4,
-                -- },
+                delay = {
+                    min = 0.3,
+                    max = 0.5,
+                },
+                throttle = {
+                    after = 1,
+                    min = 2,
+                    max = 4,
+                },
             },
 
             ["grenadeOut"] = {

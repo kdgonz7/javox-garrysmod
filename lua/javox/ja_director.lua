@@ -93,7 +93,7 @@ end
 ---@param actionObject PlayerVoxAction
 function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, name)
     local soundToPlay = nil
-    local playerEntIndex = player:EntIndex()
+    local playerEntIndex = player:SteamID64()
 
     -- Audio file selector:
     --      Audio files are string -> Use it

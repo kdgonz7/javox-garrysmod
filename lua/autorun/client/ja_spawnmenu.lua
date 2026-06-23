@@ -17,4 +17,18 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
             button:Dock(TOP)
             button:DockMargin(10, 10, 10, 10)
         end)
+    spawnmenu.AddToolMenuOption("Utilities", "JaVox", "JaVox Playermodel Binds", "#JaVox Playermodel Binds", "", "",
+        function(panel)
+            panel:Clear()
+
+            -- button that runs ja_vox_mgr
+            local button = vgui.Create("DButton", panel)
+            button:SetText("Open JaVox PM Selector")
+            button.DoClick = function()
+                RunConsoleCommand("ja_pm_selector")
+            end
+
+            button:Dock(TOP)
+            button:DockMargin(10, 10, 10, 10)
+        end)
 end)

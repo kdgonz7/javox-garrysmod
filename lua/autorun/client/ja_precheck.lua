@@ -49,7 +49,7 @@ hook.Add("InitPostEntity", "JaVOX Compatibility", function()
             local RecLabel = vgui.Create("DLabel", Options)
             RecLabel:Dock(TOP)
             RecLabel:SetText(
-                "Recommended action: Disable/Uninstall PVox and only use JaVox. JaVox is 100% compatible with PVox's VOX API.")
+                "Recommended action: Disable/Uninstall PVox and only use JaVox.")
             RecLabel:SizeToContents()
             RecLabel:SetContentAlignment(5)
             RecLabel:DockMargin(0, 0, 0, 8)

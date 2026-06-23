@@ -64,6 +64,7 @@ concommand.Add("ja_pm_selector", function(ply, cmd, args)
             local model = line:GetColumnText(1)
             icon:SetModel(model)
         end
+
         -- double clicking row allows modification.
         -- create popup and allow the user to modify the association.
         listview.DoDoubleClick = function(self, index, line)
@@ -80,8 +81,9 @@ concommand.Add("ja_pm_selector", function(ply, cmd, args)
             packDropdown:Dock(TOP)
             packDropdown:SetText(currentPack)
             for id, pack in pairs(JaVox.vox) do
-                packDropdown:AddChoice(pack.displayName, id)
+                packDropdown:AddChoice(id)
             end
+
 
             local saveButton = vgui.Create("DButton", popUp)
             saveButton:Dock(BOTTOM)
@@ -89,27 +91,25 @@ concommand.Add("ja_pm_selector", function(ply, cmd, args)
             saveButton.DoClick = function()
                 local value = packDropdown:GetValue()
 
-                net.Start("JaVox_SetPlayermodelBind")
-                net.WriteString(model)
-                net.WriteString(value)
-                net.SendToServer()
-
-                -- optimistic rendering + maybe saving?
-                JaVox.Crud:setPlayermodelBindFor(myPlayer, model, value)
+                -- note: these are client-side only
+                -- why does this need to be lowercased?
+                JaVox.Crud:setPlayermodelBindFor(string.lower(model), value)
+                JaVox.Crud:savePlayermodelBinds(myPlayer)
 
                 popUp:Remove()
                 listview:Clear()
 
                 -- reload the listviewer
                 for _, model in pairs(allPlayermodels) do
-                    local modelsPack = JaVox.Crud:getPlayermodelBindFor(myPlayer, model) or "None"
+                    local modelsPack = JaVox.Crud:getPlayermodelBindFor(model) or "None"
                     listview:AddLine(model, modelsPack)
                 end
             end
         end
 
+        JaVox.Crud:loadPlayermodelBinds(myPlayer)
         for _, model in pairs(allPlayermodels) do
-            local modelsPack = JaVox.Crud:getPlayermodelBindFor(myPlayer, model) or "None"
+            local modelsPack = JaVox.Crud:getPlayermodelBindFor(model) or "None"
             listview:AddLine(model, modelsPack)
         end
     end

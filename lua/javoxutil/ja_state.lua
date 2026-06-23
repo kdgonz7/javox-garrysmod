@@ -31,7 +31,7 @@ JaVox.State = JaVox.State or {
 function JaVox.State:registerPlayer(player)
     if ! player then return JaVox:errorWithMessage("Registerplayer missing player.") end
 
-    self.players[player:EntIndex()] = {
+    self.players[player:SteamID64()] = {
         playerName = player:Nick(),
         currentAudio = nil,
         nextAudio = nil,
@@ -53,70 +53,70 @@ function JaVox.State:registerPlayer(player)
 end
 
 --- Returns a player's current audio, or none if there isn't any audio playing.
---- @param playerIndex number
+--- @param playerIndex string
 --- @return string?
 function JaVox.State:getPlayerCurrentAudio(playerIndex)
     return self.players[playerIndex].currentAudio
 end
 
 --- Sets a player's current audio
---- @param playerIndex number
+--- @param playerIndex string
 --- @param sound string?
 function JaVox.State:setPlayerCurrentAudio(playerIndex, sound)
     self.players[playerIndex].currentAudio = sound
 end
 
 --- Sets a player's queued next audio.
----@param playerIndex number
+---@param playerIndex string
 ---@param sound string?
 function JaVox.State:setPlayerQueuedNext(playerIndex, sound)
     self.players[playerIndex].nextAudio = sound
 end
 
 --- Returns a player's next audio (if any)
----@param playerIndex number
+---@param playerIndex string
 ---@return string?
 function JaVox.State:getPlayerQueuedNext(playerIndex)
     return self.players[playerIndex].nextAudio
 end
 
 ---Sets a player's last unique sound
----@param playerIndex number
+---@param playerIndex string
 ---@param sound string
 function JaVox.State:setPlayerLastUnique(playerIndex, sound)
     self.players[playerIndex].lastUniqueSound = sound;
 end
 
 --- Returns a player's last unique audio (if any)
----@param playerIndex number
+---@param playerIndex string
 ---@return string?
 function JaVox.State:getPlayerLastUnique(playerIndex)
     return self.players[playerIndex].lastUniqueSound
 end
 
 ---Sets a player's last callout
----@param playerIndex number
+---@param playerIndex string
 ---@param callout string?
 function JaVox.State:setPlayerLastCallout(playerIndex, callout)
     self.players[playerIndex].callout.lastCallout = callout
 end
 
 ---Returns a player's last callout
----@param playerIndex number
+---@param playerIndex string
 ---@return string?
 function JaVox.State:getPlayerLastCallout(playerIndex)
     return self.players[playerIndex].callout.lastCallout
 end
 
 ---Inserts an audio voice line into the play pool of `playerIndex`.
----@param playerIndex number
+---@param playerIndex string
 ---@param sound string
 function JaVox.State:insertIntoPlayPool(playerIndex, sound)
     table.insert(self.players[playerIndex].playPool, sound)
 end
 
 ---Begins keeping track of player throttle state
----@param playerIndex number
+---@param playerIndex string
 ---@param action string
 ---@param throttleSettings ThrottleSettings
 function JaVox.State:registerThrottlingState(playerIndex, action, throttleSettings)
@@ -129,7 +129,7 @@ function JaVox.State:registerThrottlingState(playerIndex, action, throttleSettin
 end
 
 ---Begins throttling a player's action at action.
----@param playerIndex number
+---@param playerIndex string
 ---@param action string
 ---@param throttleSettings ThrottleSettings
 function JaVox.State:beginThrottle(playerIndex, action, throttleSettings)
@@ -139,12 +139,6 @@ function JaVox.State:beginThrottle(playerIndex, action, throttleSettings)
         throtBudgMax = throttleSettings.after,
         throtBudgCur = 0,
     }
-    --[[ NOTE: existing code if above doesn't work.
-    .isThrottling = true
-    self.players[playerIndex].throttleState.actionThrottling = action
-    self.players[playerIndex].throttleState.throtBudgMax = throttleSettings.after
-    self.players[playerIndex].throttleState.throtBudgCur = 0
-    ]]
 end
 
 function JaVox.State:endThrottle(playerIndex)
@@ -180,7 +174,7 @@ end
 ---If there are no more sounds left,
 ---it will replace the pool with new sounds from `withSounds` and shuffle. This function is safe to call without
 ---population prior.
----@param playerIndex number
+---@param playerIndex string
 ---@param withSounds string[]
 ---@param forAction string
 ---@return string

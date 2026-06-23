@@ -101,24 +101,48 @@ function JaVox.Crud:resolveCallout(name, calloutName)
     return JaVox.vox[name].callouts[calloutName]
 end
 
+--- [[[ CLIENTSIDE ONLY ]]]
+
 ---Returns the VOX pack bound to a playermodel.
 ---@param model string
----@return string
-function JaVox.Crud:getPlayermodelBindFor(ply, model)
-    if not JaVox.binds[ply:SteamID64()] then
-        return "None"
+---@return string|nil
+function JaVox.Crud:getPlayermodelBindFor(model)
+    if SERVER then return end
+    if not model then return end
+    if not JaVox.binds then
+        JaVox.binds = {}
     end
-    return JaVox.binds[ply:SteamID64()][model]
+    return JaVox.binds[string.lower(model)]
 end
 
----Sets the VOX pack bound to a playermodel.
+---Sets the VOX pack bound to a playermodel. Note: this should only be called clientside
 ---@param model string
 ---@param pack string
 ---@return nil
-function JaVox.Crud:setPlayermodelBindFor(ply, model, pack)
-    if not JaVox.binds[ply:SteamID64()] then
-        JaVox.binds[ply:SteamID64()] = {}
-    end
+function JaVox.Crud:setPlayermodelBindFor(model, pack)
+    if SERVER then return end
 
-    JaVox.binds[ply:SteamID64()][model] = pack
+    JaVox.binds[model] = pack
+end
+
+---Saves the playermodel binds for the given player.
+---@param ply Player
+function JaVox.Crud:savePlayermodelBinds(ply)
+    if SERVER then return end
+    if not ply then return end
+
+
+    ply:SetPData("javox_playermodel_binds", util.TableToJSON(JaVox.binds))
+end
+
+---Loads the playermodel binds for the given player.
+---@param ply Player
+function JaVox.Crud:loadPlayermodelBinds(ply)
+    if SERVER then return end
+    if not ply then return end
+
+    local binds = ply:GetPData("javox_playermodel_binds")
+    if not binds then return end
+
+    JaVox.binds = util.JSONToTable(binds)
 end
