@@ -188,7 +188,6 @@ function JaVox.State:popFromPlayPoolOf(playerIndex, withSounds, forAction)
     local pool = self.players[playerIndex].playPool.queue
 
     if #pool == 0 then
-        -- self.players[playerIndex].playPool.queue
         table.CopyFromTo(withSounds, pool)
         table.Shuffle(pool)
     end
