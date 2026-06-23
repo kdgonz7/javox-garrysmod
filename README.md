@@ -27,8 +27,41 @@ A small breakdown:
 - `JaVox.State`: Manages player states. This is what manages priorities (to play a sound after the current one, play and cut this one off, wait to receive another input, or play it randomly.)
 - `JaVox.Crud`: Manages CRUD operations for the JaVox system.
 
+### JaVox Actions
+
+JaVox contains actions that have metadata attached to them. When you run an action, JaVox does a namespace lookup for your action in the format `a.b.c`, where `a` and `b` are both tables that have other tables that can either have tables or action metadata.
+
+Oddly enough, the system allows for homogenous recursive namespace dispatching *alongside* action metadata, meaning you can have:
+
+```json
+{
+	"action1": {
+		"action2": {
+			"audioFiles": [],
+			"priority": 5,
+			// etc.
+		},
+		// notice how we have audio files here... and in action2?
+		// this is weird but works. you should probably separate categories however. That is a user discipline.
+		"audioFiles": [],
+		"priority": 5,
+	}
+}
+```
+
+Having this flexibility allows for packs to be created easier and faster, with respect to user wishes.
+
+#### What defines an action?
+
+An action, or 'module' as referred to in certain areas, is any table object that contains an `audioFiles` table.
+
+Without an `audioFiles` table, there is no way to determine (other than default properties, which is prevented for best-case reasons) if the table at hand is a module when resolving an action.
+
 ### PVox...
 
 The differences are:
 - Inspect module was removed in favor of just encouraging more callout usage.
-- The filesystem setup is BASIC (nonexistent rn.), with pre-made settings for the best outputs.
+- **The filesystem setup is BASIC** (nonexistent rn.), with pre-made settings for the best outputs.
+- **JaVox is primarily data-driven**, with a focus on providing enough information for variety instead of immediate vocal output.
+- All of JaVox's built-in extensions (spotting, etc.) have convars.
+- Ping system WIP
