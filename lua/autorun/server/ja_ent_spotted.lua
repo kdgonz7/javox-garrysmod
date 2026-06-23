@@ -94,6 +94,10 @@ hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
                 return
             end
 
+            if not ply:Visible(aimedAtEntities[i]) then
+                return
+            end
+
             if not aimedAtEntities[i].Disposition then return end
 
             -- if we hate the entity
@@ -157,5 +161,13 @@ hook.Add("Think", "JaVox_ResetSpottedFlag", function()
                 continue
             end
         end
+    end
+end)
+hook.Add("EntityTakeDamage", "JaVox_EntityTakeDamage", function(ent, dmginfo)
+    if not isSomething(ent) then return end
+    if not ServerEntQueue:IsSpotted(ent) then return end
+
+    if ent:Health() - dmginfo:GetDamage() <= 0 then
+        ServerEntQueue:Reset(ent)
     end
 end)
