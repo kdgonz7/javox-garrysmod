@@ -22,7 +22,6 @@ function JaVox.Director:ensurePlayerContract(player, preset)
     end
 
     JaVox.State:registerPlayer(player)
-    player:SetNWString(JAVOX_PRESET, preset or 'none')
 end
 
 ---Emits an audio action from `player`.

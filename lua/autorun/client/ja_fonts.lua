@@ -18,3 +18,10 @@ surface.CreateFont("JaVoxSmallest", {
     extended = true,
     antialias = true,
 })
+
+surface.CreateFont("JaVoxLarger", {
+    font = "Roboto",
+    size = 24,
+    extended = true,
+    antialias = true,
+})

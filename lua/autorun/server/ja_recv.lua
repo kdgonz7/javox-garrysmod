@@ -9,6 +9,8 @@ net.Receive("JaVox_ChangePlayerPreset", function(len, ply)
     local id = net.ReadString()
     ply:SetNWString(JAVOX_PRESET, id)
     JaVox.State:clearPlayerQueue(ply:EntIndex())
+    -- this ...should... save the preset to the player's data
+    ply:SetPData("javox_preset", ply:GetNWString(JAVOX_PRESET, "none"))
 end)
 
 -- /callout/emit/[name]

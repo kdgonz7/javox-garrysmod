@@ -6,13 +6,24 @@ JaVox = {
 } -- pure, nude javox.            lol
 
 local JaVoxLogColor = Color(236, 102, 13)
-local files = file.Find("javox/*.lua", "LUA")
-for _, fname in ipairs(files) do
-	local trueFile = string.format("javox/%s", fname)
-	AddCSLuaFile(trueFile)
-	include(trueFile)
-	MsgC(JaVoxLogColor, "[JAVOX]", color_white, " loaded internal module: ", Color(111, 212, 255), trueFile, "\n")
+
+--- Loads all lua files from a directory glob pattern with consistent logging
+--- @param dirName string Directory pattern (e.g., "javoxutil", "javox")
+--- @param color Color Color for the log message
+--- @param typeOfFile string Type descriptor for logging (e.g., "util", "vox")
+--- @return nil
+local function loadFileGlob(dirName, color, typeOfFile)
+	local files = file.Find(dirName .. "/*.lua", "LUA")
+	for _, fname in ipairs(files) do
+		local trueFile = string.format("%s/%s", dirName, fname)
+		AddCSLuaFile(trueFile)
+		include(trueFile)
+		MsgC(JaVoxLogColor, "[JAVOX]", color_white, " loaded internal (" .. typeOfFile .. ") module: ", color, trueFile,
+			"\n")
+	end
 end
+
+
 
 --- Registers a module with a given payload into the global JaVox object. Note to future developers, or myself:
 --- These **have** to be questionable because lua is unsafe and gmod developers just wanna have fun.
@@ -40,3 +51,9 @@ function JaVox:registerLuaModule(mod)
 	if ! mod then return JaVox:errorWithMessage("register lua module requires payload.") end
 	JaVox.modules[mod.name] = mod
 end
+
+-- for things like AudioPriority where addons will use it,
+-- we will load javoxutil before loading javox/ files,
+-- and that's where crud, director, etc. will go.
+loadFileGlob("javoxutil", Color(111, 212, 255), "util")
+loadFileGlob("javox", Color(111, 212, 255), "vox")
