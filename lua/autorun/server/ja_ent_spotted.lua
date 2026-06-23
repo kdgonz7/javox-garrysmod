@@ -6,11 +6,13 @@ print("Entity spotted module loaded!")
 
 ---@diagnostic disable-next-line: param-type-mismatch
 local cvJaVoxSpotting = CreateConVar("javox_enable_spotting", "1", FCVAR_ARCHIVE, "Enable JaVox entity spotted actions")
+---@diagnostic disable-next-line: param-type-mismatch
 local cvJaVoxResetThreshold = CreateConVar("javox_reset_threshold", "6", FCVAR_ARCHIVE,
     "Distance threshold for resetting spotted flag")
 
 --- @class ServerEntQueue A queue that manages spotted entities.
 --- @field Entities table<number, EntitySpotMetadata>
+---@diagnostic disable-next-line: undefined-global
 local ServerEntQueue = ServerEntQueue or {
     Entities = {}
 }
