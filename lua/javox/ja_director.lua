@@ -146,7 +146,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         -- if action has throttling attached
         if actionObject.throttle then
             if JaVox.State:playerIsThrottling(playerEntIndex) then
-                print("Still going for action", name)
+                -- print("Still going for action", name)
                 return
             end
 
