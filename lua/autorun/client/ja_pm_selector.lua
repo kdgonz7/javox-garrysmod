@@ -21,6 +21,9 @@ concommand.Add("javox_pm_selector", function(ply, cmd, args)
         PMSelector:SetTitle("JaVox Playermodel Selector")
         PMSelector:Center()
         PMSelector:MakePopup()
+        PMSelector.Paint = function(self, w, h)
+            draw.RoundedBox(0, 0, 0, w, h, Color(41, 37, 36))
+        end
 
         local panelFill = vgui.Create("DPanel", PMSelector)
         panelFill:Dock(FILL)
