@@ -18,7 +18,7 @@ JaVox.Director = JaVox.Director or {
 
         delay = {
             min = 0,
-            max = 2
+            max = 1
         },
 
         throttle = {

@@ -18,7 +18,7 @@ AudioPriority = {
 
 --- @class PlayerVoxAction A playervox action contains a name and audiofiles, bound to by the PlayerVox object.
 --- @field audioFiles string|string[]? The audio files of this action. Can be singular, or multiple.
---- @field priority AudioPriority The priority of the sound. See [AudioPriority]
+--- @field priority AudioPriority? The priority of the sound. See [AudioPriority]
 --- @field volume number? The volume of the sound. Default should be `100`.
 --- @field pitch number? Pitch modification for the sound. (0-255)
 --- @field reach number? How far the sound reaches. Default 100.
@@ -43,11 +43,12 @@ AudioPriority = {
 --- @field binds table<string, string>
 --- @field modules table<string, JavoLuaModule>
 
+
 --- @class PlayerVoxModule Defines a JaVox player vocal module.
 --- @field displayName string The display name of the module
 --- @field author string | string[] ? The author(s) of the Vox module.
 --- @field description string? The description of the Vox itself. (game it's from, etc.)
---- @field actions table<string, PlayerVoxAction|table<string, PlayerVoxAction>> The actions that can be ran by this module. Functions provide abstractions to access these. Note that actions are designed to be expanded upon, and follow an `any in any out` architecture. A vox module can define an abstract vocal execution and have another addon of the same owner run it.
+--- @field actions table<string, PlayerVoxAction|any> The actions that can be ran by this module. Functions provide abstractions to access these. Note that actions are designed to be expanded upon, and follow an `any in any out` architecture. A vox module can define an abstract vocal execution and have another addon of the same owner run it.
 --- @field callouts table<string, string>
 --- @field tags? string[] Tags for the module.
 

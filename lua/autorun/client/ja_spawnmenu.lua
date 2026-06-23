@@ -21,6 +21,8 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
         function(panel)
             panel:Clear()
 
+            panel:CheckBox("Enable JaVox Playermodel Binds", "javox_should_set_model")
+
             -- button that runs javox_vox_mgr
             local button = vgui.Create("DButton", panel)
             button:SetText("Open JaVox PM Selector")
