@@ -5,8 +5,30 @@
 -- the director has specific rules in place to allow players
 
 
+---@class JaVoxDirectorSensibleDefaults
+---@field priority AudioPriority
+---@field delay DelaySettings
+---@field throttle ThrottleSettings
+
 --- @class JaVoxDirector
-JaVox.Director = JaVox.Director or {}
+--- @field sensibleDefaults JaVoxDirectorSensibleDefaults
+JaVox.Director = JaVox.Director or {
+    sensibleDefaults = {
+        priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+
+        delay = {
+            min = 0,
+            max = 1
+        },
+
+        throttle = {
+            after = 1,
+            min = 1,
+            max = 3,
+        }
+    }
+}
+
 JAVOX_PRESET = "JaVox_Preset"
 
 --- This function will ensure a player has the necessary NW variables. Defines the following:
@@ -54,6 +76,27 @@ function JaVox.Director:emitActionFromPlayer(player, actionName)
     self:_emitActionWithPriorityContract(player, actionObject, actionName)
 end
 
+--(actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
+-- basically do this but in one singular function
+function JaVox.Director:convertConformingObjectToValue(obj, default)
+    -- object is not object, object has no range, and nothing to utilize
+    if not obj or not obj.min or not obj.max then
+        return default
+    end
+
+    -- if object is a table, return a random value from its range
+    if type(obj) == "table" then
+        return math.random(obj.min, obj.max)
+    end
+
+    -- if object is a value, return it
+    if obj then
+        return obj
+    end
+
+    return default
+end
+
 ---Emits an action from a player. Handles the cases of a list, singular sound, or no sound at all. This should NOT be called by developers. Instead, use `emitActionFromPlayer
 ---@param player Player
 ---@param actionObject PlayerVoxAction
@@ -66,7 +109,8 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     --      Audio files are string[] -> Grab a random one
     -- Designed like this to be extensible and make sense humanly.
     if type(actionObject.audioFiles) == "string" then
-        soundToPlay = actionObject.audioFiles
+        soundToPlay = actionObject
+            .audioFiles -- TODO: will i reference another action, will it recursively call? Answer: Yes, it will.
     elseif type(actionObject.audioFiles) == "table" then
         ---@diagnostic disable-next-line: param-type-mismatch
         soundToPlay = JaVox.State:popFromPlayPoolOf(playerEntIndex, actionObject.audioFiles, name)
@@ -83,8 +127,6 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     if ! soundToPlay then return end
     --- @cast soundToPlay string
 
-    -- god of coding is not watching
-
     --- Plays selected sound from player, following the delay rules.
     --- @param sound string
     --- @param willDefer boolean
@@ -93,8 +135,11 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         --          1 in chanceToNotPlay chance that it won't play (if chanceToNotPlay exists)
         --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
         -- TODO: add some convars to have a default if delay not specific. Or just to override.
-        local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
-
+        -- local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
+        local waitTime = JaVox.Director:convertConformingObjectToValue(
+            actionObject.delay,
+            JaVox.Director.sensibleDefaults.delay
+        )
         -- last one. random chance to not play
         if actionObject.delay and actionObject.delay.chanceToNotPlay then
             if math.random(actionObject.delay.chanceToNotPlay) == 1 then
