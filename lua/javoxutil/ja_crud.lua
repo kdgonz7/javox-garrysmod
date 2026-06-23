@@ -100,3 +100,25 @@ end
 function JaVox.Crud:resolveCallout(name, calloutName)
     return JaVox.vox[name].callouts[calloutName]
 end
+
+---Returns the VOX pack bound to a playermodel.
+---@param model string
+---@return string
+function JaVox.Crud:getPlayermodelBindFor(ply, model)
+    if not JaVox.binds[ply:SteamID64()] then
+        return "None"
+    end
+    return JaVox.binds[ply:SteamID64()][model]
+end
+
+---Sets the VOX pack bound to a playermodel.
+---@param model string
+---@param pack string
+---@return nil
+function JaVox.Crud:setPlayermodelBindFor(ply, model, pack)
+    if not JaVox.binds[ply:SteamID64()] then
+        JaVox.binds[ply:SteamID64()] = {}
+    end
+
+    JaVox.binds[ply:SteamID64()][model] = pack
+end

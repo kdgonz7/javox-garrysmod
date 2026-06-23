@@ -40,7 +40,7 @@ AudioPriority = {
 --- meant to execute jaVox upon a particular action.
 --- @class JaVoxCore
 --- @field vox table<string, PlayerVoxModule>
---- @field binds table<string, Bind[]>
+--- @field binds table<string, table<string, string>>
 --- @field modules table<string, JavoLuaModule>
 
 --- @class PlayerVoxModule Defines a JaVox player vocal module.
