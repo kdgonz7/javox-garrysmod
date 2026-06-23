@@ -57,3 +57,4 @@ end
 -- and that's where crud, director, etc. will go.
 loadFileGlob("javoxutil", Color(111, 212, 255), "util")
 loadFileGlob("javox", Color(111, 212, 255), "vox")
+loadFileGlob("javox_pack", Color(111, 212, 255), "VOX Packs")
