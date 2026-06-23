@@ -1,4 +1,4 @@
-local SHAKE_WINDOW = 0.7       -- time window to complete the head shake
+local SHAKE_WINDOW = 0.3       -- time window to complete the head shake
 local SHAKE_THRESH = 22        -- minimum yaw change (degrees) to count as a deliberate move
 local SHAKE_COUNT_REQUIRED = 3 -- l > r > l
 local SHAKE_THROTTLE = 2.0     -- no spamming javox

@@ -1,4 +1,4 @@
-local NOD_WINDOW = 0.7       -- time window for nod
+local NOD_WINDOW = 0.3       -- time window for nod
 local NOD_THRESH = 15        -- min difference
 local NOD_COUNT_REQUIRED = 3 -- number of direction changes to trigger (e.g., up -> down -> up)
 
