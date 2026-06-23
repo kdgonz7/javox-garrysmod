@@ -18,7 +18,7 @@ JaVox.Director = JaVox.Director or {
 
         delay = {
             min = 0,
-            max = 1
+            max = 2
         },
 
         throttle = {
@@ -78,23 +78,14 @@ end
 
 --(actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
 -- basically do this but in one singular function
-function JaVox.Director:convertConformingObjectToValue(obj, default)
+function JaVox.Director:convertConformingMinMaxesToRandomValue(obj, default)
     -- object is not object, object has no range, and nothing to utilize
     if not obj or not obj.min or not obj.max then
-        return default
+        return math.random(default.min, default.max)
     end
 
     -- if object is a table, return a random value from its range
-    if type(obj) == "table" then
-        return math.random(obj.min, obj.max)
-    end
-
-    -- if object is a value, return it
-    if obj then
-        return obj
-    end
-
-    return default
+    return math.random(obj.min, obj.max)
 end
 
 ---Emits an action from a player. Handles the cases of a list, singular sound, or no sound at all. This should NOT be called by developers. Instead, use `emitActionFromPlayer
@@ -135,17 +126,22 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         --          1 in chanceToNotPlay chance that it won't play (if chanceToNotPlay exists)
         --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
         -- TODO: add some convars to have a default if delay not specific. Or just to override.
+
         -- local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
-        local waitTime = JaVox.Director:convertConformingObjectToValue(
+        local waitTime = JaVox.Director:convertConformingMinMaxesToRandomValue(
             actionObject.delay,
             JaVox.Director.sensibleDefaults.delay
         )
+
         -- last one. random chance to not play
         if actionObject.delay and actionObject.delay.chanceToNotPlay then
             if math.random(actionObject.delay.chanceToNotPlay) == 1 then
                 return
             end
         end
+
+        -- is this safe?
+        actionObject.throttle = actionObject.throttle or JaVox.Director.sensibleDefaults.throttle
 
         -- if action has throttling attached
         if actionObject.throttle then
@@ -217,6 +213,8 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
             end)
         end)
     end
+
+    actionObject.priority = actionObject.priority or JaVox.Director.sensibleDefaults.priority
 
     -- Priority selector:
     --      deferral  : will set next in queue if already have one going.
