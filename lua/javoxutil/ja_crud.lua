@@ -60,7 +60,8 @@ function JaVox.Crud:resolveActions(moduleObj, action)
     ---@param x any
     ---@return boolean
     local function isModule(x)
-        return x and x.priority ~= nil
+        -- note: why tf was this not audioFiles to begin with?
+        return x and x.audioFiles ~= nil
     end
 
     -- if it's like
