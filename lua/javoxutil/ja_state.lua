@@ -126,8 +126,6 @@ function JaVox.State:registerThrottlingState(playerIndex, action, throttleSettin
         throtBudgCur = 0,
         throtBudgMax = throttleSettings.after
     }
-
-    print("Registered throt for act")
 end
 
 ---Begins throttling a player's action at action.
