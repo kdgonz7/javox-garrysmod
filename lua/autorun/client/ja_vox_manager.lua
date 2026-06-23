@@ -26,7 +26,12 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     MyFrame.Paint = function(self, w, h)
         draw.RoundedBox(8, 0, 0, w, h, Color(41, 37, 36))
     end
-    local myModules = vgui.Create("DLabel", MyFrame)
+
+    local TheScroller = vgui.Create("DScrollPanel", MyFrame)
+    TheScroller:Dock(FILL)
+    TheScroller:DockMargin(4, 4, 4, 4)
+
+    local myModules = vgui.Create("DLabel", TheScroller)
     myModules:Dock(TOP)
     myModules:DockMargin(10, 10, 0, 10)
     myModules:SetTextColor(colorTheme.textRegular)
@@ -34,7 +39,7 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     myModules:SetFont("JaVoxLarger")
     myModules:SizeToContents()
 
-    local headerLabel = vgui.Create("DLabel", MyFrame)
+    local headerLabel = vgui.Create("DLabel", TheScroller)
     headerLabel:Dock(TOP)
     headerLabel:DockMargin(10, 10, 0, 10)
     headerLabel:SetTextColor(colorTheme.textRegular)
@@ -43,7 +48,7 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     headerLabel:SizeToContents()
 
 
-    local panel = vgui.Create("DScrollPanel", MyFrame)
+    local panel = vgui.Create("DScrollPanel", TheScroller)
     panel:Dock(FILL)
     panel:DockMargin(4, 4, 4, 4)
 
@@ -62,79 +67,144 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
         draw.RoundedBox(8, 2, 0, w - 4, h, colorTheme.accentColor)
     end
 
+    local regularModulesPanel = vgui.Create("DPanel", TheScroller)
+    regularModulesPanel:Dock(TOP)
+    regularModulesPanel:SetHeight(MyFrame:GetWide() / 2)
+    regularModulesPanel:DockMargin(4, 4, 4, 4)
+    regularModulesPanel.Paint = function(self, w, h) end
+
+    local regularModuleHeader = vgui.Create("DLabel", regularModulesPanel)
+    regularModuleHeader:Dock(TOP)
+    regularModuleHeader:DockMargin(10, 10, 0, 10)
+    regularModuleHeader:SetTextColor(colorTheme.textRegular)
+    regularModuleHeader:SetText("Regular Modules")
+    regularModuleHeader:SetFont("JaVoxLarger")
+    regularModuleHeader:SizeToContents()
+
     local j = JaVox and JaVox.vox or {}
+
     for id, info in pairs(j) do
-        local card = vgui.Create("DPanel", panel)
-        card:Dock(TOP)
-        card:SetHeight(80)
-        card:DockMargin(6, 6, 6, 6)
-        card.Paint = function(self, w, h)
-            draw.RoundedBox(8, 0, 0, w, h, colorTheme.cardColor)
-        end
-
-        local titleAndAuthrsEtc = vgui.Create("DPanel", card)
-        titleAndAuthrsEtc:Dock(FILL)
-        titleAndAuthrsEtc:DockMargin(10, 10, 0, 10)
-        titleAndAuthrsEtc.Paint = function() end
-
-        local label = vgui.Create("DLabel", titleAndAuthrsEtc)
-        label:Dock(TOP)
-        label:DockMargin(20, 10, 0, 0)
-        label:SetTextColor(colorTheme.textRegular)
-        label:SetText(info.displayName)
-        label:SizeToContents()
-        label:SetFont("JaVoxRegular")
-
-        local author = info.author or "Author"
-        if type(author) == 'table' then
-            if table.IsEmpty(author) then
-                author = "Various Authors"
-            else
-                ---@diagnostic disable-next-line: param-type-mismatch
-                author = table.concat(info.author, ", ")
-            end
-        end
-
-        local label2 = vgui.Create("DLabel", titleAndAuthrsEtc)
-        label2:Dock(TOP)
-        label2:DockMargin(20, 0, 0, 0)
-        label2:SetTextColor(colorTheme.textRegularDarker)
-        label2:SetText(string.format("By %s", author))
-        label2:SizeToContents()
-        label2:SetFont("JaVoxSmaller")
-
-        local label3 = vgui.Create("DLabel", titleAndAuthrsEtc)
-        label3:Dock(TOP)
-        label3:DockMargin(20, 0, 0, 0)
-        label3:SetTextColor(colorTheme.textRegularDarker)
-        label3:SetText(info.description or "No description supplied")
-        label3:SizeToContents()
-        label3:SetFont("JaVoxSmallest")
-
-        local button = vgui.Create("DButton", card)
-        button:Dock(RIGHT)
-        button:DockMargin(0, 10, 10, 10)
-        button:SetText("")
-        button.Paint = function(self, w, h)
-            local enabled = (LocalPlayer():GetNWString(JAVOX_PRESET, '') == id)
-            local colorToUse = enabled and colorTheme.accentColor or colorTheme.disabledButton
-
-            if self:IsHovered() then
-                colorToUse = enabled and colorTheme.accentColorDarker or colorTheme.disabledButtonDarker
-            end
-
-            draw.RoundedBox(6, 1, 1, w - 2, h - 2, colorToUse)
-            draw.SimpleText(enabled and "Enabled" or "Disabled",
-                "JaVoxRegular", w / 2, h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        end
-
-        button.DoClick = function()
-            net.Start("JaVox_ChangePlayerPreset")
-            net.WriteString(id)
-            net.SendToServer()
-
-            surface.PlaySound("ui/buttonclick.wav")
-            notification.AddLegacy("Changed your preset to " .. id .. "!", NOTIFY_GENERIC, 3)
+        info.displayName = info.displayName or id
+        if not table.HasValue(info.tags or {}, "pvox") then
+            VoxPack(regularModulesPanel, id, info)
         end
     end
+
+    regularModulesPanel:InvalidateLayout(true)
+    regularModulesPanel:SizeToChildren(false, true)
+
+    local pvoxModulesPanel = vgui.Create("DPanel", TheScroller)
+    pvoxModulesPanel:Dock(TOP)
+    pvoxModulesPanel:SetHeight(MyFrame:GetWide() / 2)
+    pvoxModulesPanel:DockMargin(4, 4, 4, 4)
+    pvoxModulesPanel.Paint = function(self, w, h) end
+
+    -- this is slow, but this menu only does this once
+
+    local isAnyPvoxModules = false
+    for id, info in pairs(j) do
+        info.displayName = info.displayName or id
+        if table.HasValue(info.tags or {}, "pvox") then
+            isAnyPvoxModules = true
+            break
+        end
+    end
+
+
+    if not isAnyPvoxModules then
+        pvoxModulesPanel:SetVisible(false)
+    end
+    local pvoxHeader = vgui.Create("DLabel", pvoxModulesPanel)
+    pvoxHeader:Dock(TOP)
+    pvoxHeader:DockMargin(10, 10, 0, 10)
+    pvoxHeader:SetTextColor(colorTheme.textRegular)
+    pvoxHeader:SetText("PVOX Modules")
+    pvoxHeader:SetFont("JaVoxLarger")
+    pvoxHeader:SizeToContents()
+
+    -- pvox modules separate
+    for id, info in pairs(j) do
+        info.displayName = info.displayName or id
+        if table.HasValue(info.tags or {}, "pvox") then
+            VoxPack(pvoxModulesPanel, id, info)
+        end
+    end
+
+    pvoxModulesPanel:InvalidateLayout(true)
+    pvoxModulesPanel:SizeToChildren(false, true)
 end)
+
+function VoxPack(panel, id, info)
+    local card = vgui.Create("DPanel", panel)
+    card:Dock(TOP)
+    card:SetHeight(80)
+    card:DockMargin(6, 6, 6, 6)
+    card.Paint = function(self, w, h)
+        draw.RoundedBox(8, 0, 0, w, h, colorTheme.cardColor)
+    end
+
+    local titleAndAuthrsEtc = vgui.Create("DPanel", card)
+    titleAndAuthrsEtc:Dock(FILL)
+    titleAndAuthrsEtc:DockMargin(10, 10, 0, 10)
+    titleAndAuthrsEtc.Paint = function() end
+
+    local label = vgui.Create("DLabel", titleAndAuthrsEtc)
+    label:Dock(TOP)
+    label:DockMargin(20, 10, 0, 0)
+    label:SetTextColor(colorTheme.textRegular)
+    label:SetText(info.displayName)
+    label:SizeToContents()
+    label:SetFont("JaVoxRegular")
+
+    local author = info.author or "Author"
+    if type(author) == 'table' then
+        if table.IsEmpty(author) then
+            author = "Various Authors"
+        else
+            ---@diagnostic disable-next-line: param-type-mismatch
+            author = table.concat(info.author, ", ")
+        end
+    end
+
+    local label2 = vgui.Create("DLabel", titleAndAuthrsEtc)
+    label2:Dock(TOP)
+    label2:DockMargin(20, 0, 0, 0)
+    label2:SetTextColor(colorTheme.textRegularDarker)
+    label2:SetText(string.format("By %s", author))
+    label2:SizeToContents()
+    label2:SetFont("JaVoxSmaller")
+
+    local label3 = vgui.Create("DLabel", titleAndAuthrsEtc)
+    label3:Dock(TOP)
+    label3:DockMargin(20, 0, 0, 0)
+    label3:SetTextColor(colorTheme.textRegularDarker)
+    label3:SetText(info.description or "No description supplied")
+    label3:SizeToContents()
+    label3:SetFont("JaVoxSmallest")
+
+    local button = vgui.Create("DButton", card)
+    button:Dock(RIGHT)
+    button:DockMargin(0, 10, 10, 10)
+    button:SetText("")
+    button.Paint = function(self, w, h)
+        local enabled = (LocalPlayer():GetNWString(JAVOX_PRESET, '') == id)
+        local colorToUse = enabled and colorTheme.accentColor or colorTheme.disabledButton
+
+        if self:IsHovered() then
+            colorToUse = enabled and colorTheme.accentColorDarker or colorTheme.disabledButtonDarker
+        end
+
+        draw.RoundedBox(6, 1, 1, w - 2, h - 2, colorToUse)
+        draw.SimpleText(enabled and "Enabled" or "Disabled",
+            "JaVoxRegular", w / 2, h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
+
+    button.DoClick = function()
+        net.Start("JaVox_ChangePlayerPreset")
+        net.WriteString(id)
+        net.SendToServer()
+
+        surface.PlaySound("ui/buttonclick.wav")
+        notification.AddLegacy("Changed your preset to " .. id .. "!", NOTIFY_GENERIC, 3)
+    end
+end
