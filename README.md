@@ -60,8 +60,10 @@ Without an `audioFiles` table, there is no way to determine (other than default 
 ### PVox...
 
 The differences are:
-- Inspect module was removed in favor of just encouraging more callout usage.
-- **The filesystem setup is BASIC** (nonexistent rn.), with pre-made settings for the best outputs.
+- **Inspect module was removed in favor of just encouraging more callout usage**.
 - **JaVox is primarily data-driven**, with a focus on providing enough information for variety instead of immediate vocal output.
-- All of JaVox's built-in extensions (spotting, etc.) have convars.
+- *All of JaVox's built-in extensions* (spotting, etc.) **have convars**.
+- **JaVox has both `delay` and `throttle`,** meaning that you can not only randomly delay an audio playing, but also delay the subsequent ones too.
+- **JaVox exposes pitch, volume, and reach** for granularity and improved creative expression.
+- **JaVox boasts a highly-optimized architecture** with shuffled audio used instead of blindsided random calls.
 - Ping system WIP
