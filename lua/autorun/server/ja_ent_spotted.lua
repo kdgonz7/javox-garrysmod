@@ -10,6 +10,8 @@ local cvJaVoxSpotting = CreateConVar("javox_enable_spotting", "1", { FCVAR_ARCHI
 ---@diagnostic disable-next-line: param-type-mismatch
 local cvJaVoxResetThreshold = CreateConVar("javox_reset_threshold", "6", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Distance threshold for resetting spotted flag")
+local cvJaVoxSendToAllPlayers = CreateConVar("javox_send_to_all_players", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+    "Send spotted entity notifications to all players")
 
 --- @class ServerEntQueue A queue that manages spotted entities.
 --- @field Entities table<number, EntitySpotMetadata>
@@ -111,9 +113,15 @@ hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
                 JaVox.Director:emitActionFromPlayer(ply, "ents.spotted." .. entityName)
 
                 ServerEntQueue:Spot(aimedAtEntities[i], ply)
+
                 net.Start("JaVox_EntSpotted")
                 net.WriteEntity(aimedAtEntities[i])
-                net.Send(ply)
+
+                if cvJaVoxSendToAllPlayers:GetBool() then -- if settings
+                    net.Broadcast()                       -- broadcast it
+                else                                      -- otherwise
+                    net.Send(ply)                         -- send to the player
+                end
             end
         end
     end
