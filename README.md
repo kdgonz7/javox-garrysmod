@@ -26,6 +26,7 @@ A small breakdown:
 - `JaVox.Director`: Manages player audio outputs, anything that is sound-related is here.
 - `JaVox.State`: Manages player states. This is what manages priorities (to play a sound after the current one, play and cut this one off, wait to receive another input, or play it randomly.)
 - `JaVox.Crud`: Manages CRUD operations for the JaVox system.
+- `JaVox.Scheduler/Timeline`: Manages audio placement and playing
 
 ### JaVox Default Action Modules
 
@@ -90,3 +91,10 @@ The differences are:
 - `ja_pvox_builder.lua` -> a flat, one-way translator for old PVOX packs.
 - `ja_builder.lua` -> a modern-day builder pattern for creating VOX packs.
 - `JaVox:registerModule(id, payload)` -> The "classic" and most feature-dense way of creating a module.
+
+
+## Credits
+
+- `My Brain` -> building the architecture, understanding data flow, etc.
+- `PVox` -> My previous player voiceline addon, much simplier to run and understand, but less performant.
+- `TFA-VOX` -> Best to ever do it!
