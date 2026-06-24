@@ -34,7 +34,7 @@ hook.Add("EntityTakeDamage", "JaVox built-in damage hook", function(target, dmg)
             -- TODO: make specific things through simple ents.entKill_XXX
             --- @cast inflictor Player
             if ! inflictor:Visible(target) then
-                JaVox.Director:emitActionFromPlayer(inflictor, "ents.suggestKill")
+                JaVox.Director:emitActionFromPlayer(inflictor, "ents.kill.suggest")
                 return
             end
 
