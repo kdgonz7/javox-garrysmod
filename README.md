@@ -83,6 +83,7 @@ The differences are:
 - **JaVox has modules for pinging, visual feedback for spotting entities, as well as feedback for losing entities** after periods of time.
 - **JaVox has modules for inferred head nodding (yes/no) by tracking player movements** and nod changes.
 - **JaVox has a high-performance timeline to replace timer-based systems entirely.**
+- **JaVox has multiple interfaces for playermodel modification**, and direct access to change your model.
 - **ALL** JaVox modules have the ability to be disabled entirely.
 
 ### JaVox Module Methods
