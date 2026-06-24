@@ -134,6 +134,17 @@ JaVox:registerModule("combine-soldier-builtin", {
 
         ["self"] = {
             ["damage"] = {
+                priority = AudioPriority.PLAY_IMMEDIATE,
+                audioFiles = painFiles,
+                delay = {
+                    min = 0.1,
+                    max = 0.1,
+                },
+                throttle = {
+                    after = 2,
+                    min = 1,
+                    max = 3,
+                },
                 ["fall"] = {
                     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                     audioFiles = painFiles,
@@ -145,7 +156,7 @@ JaVox:registerModule("combine-soldier-builtin", {
                         after = 2,
                         min = 1,
                         max = 3,
-                    }
+                    },
                 }
             },
         },
