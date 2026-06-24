@@ -50,73 +50,113 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_EntityKills", "Entity Kills", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for killing NPCs or other entities.")
-            panel:CheckBox("Enable Entity Kill Lines", "javox_enable_entity_kills")
+            if LocalPlayer():IsAdmin() then
+                panel:Help("Settings for killing NPCs or other entities.")
+                panel:CheckBox("Enable Entity Kill Lines", "javox_enable_entity_kills")
+            end
         end)
 
     -- Damage Module
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Damage", "Damage", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for taking or dealing damage.")
-            panel:CheckBox("Enable Damage Module", "javox_damage_module_enabled")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for taking or dealing damage.")
+                panel:CheckBox("Enable Damage Module", "javox_damage_module_enabled")
+            end
         end)
 
     -- ARC9 Jamming
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_ARC9Jam", "ARC9 Weapon Jam", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for ARC9 weapon malfunctions.")
-            panel:CheckBox("Enable ARC9 Jam Lines", "javox_arc9_jam_enabled")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for ARC9 weapon malfunctions.")
+                panel:CheckBox("Enable ARC9 Jam Lines", "javox_arc9_jam_enabled")
+            end
         end)
 
     -- Spotting
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Spotting", "Spotting", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for spotting enemies and resetting thresholds.")
-            panel:CheckBox("Enable Enemy Spotting", "javox_enable_spotting")
-            panel:NumSlider("Reset Threshold", "javox_reset_threshold", 0, 100, 0)
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for spotting enemies and resetting thresholds.")
+                panel:CheckBox("Enable Enemy Spotting", "javox_enable_spotting")
+                panel:NumSlider("Reset Threshold", "javox_reset_threshold", 0, 100, 0)
+                panel:Help("")
+            end
+            -- javox_spotted_lost_animation_duration -> number
+            -- javox_spotted_lost_enable_tooltip_text -> boolean
+            -- javox_spotted_lost_tooltip_text_duration -> number
+            -- javox_spotted_lost_wind_sound -> string
+            -- javox_spotted_lost_show_text -> boolean
+            -- javox_spotted_lost_show_pings -> string
+            panel:Help("Settings for when you lose an enemy - the rest of these are yours!")
+            panel:NumSlider("Animation Duration", "javox_spotted_lost_animation_duration", 0, 10, 2)
+            panel:CheckBox("Enable Tooltip Text", "javox_spotted_lost_enable_tooltip_text")
+            panel:NumSlider("Tooltip Text Duration", "javox_spotted_lost_tooltip_text_duration", 0, 10, 2)
+            panel:TextEntry("Wind Sound", "javox_spotted_lost_wind_sound")
+            panel:CheckBox("Show Text", "javox_spotted_lost_show_text")
+            panel:CheckBox("Show Pings", "javox_spotted_lost_show_pings")
         end)
 
     -- Fall Damage
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_FallDamage", "Fall Damage", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for falling and impact actions.")
-            panel:CheckBox("Enable Fall Damage Actions", "javox_fall_damage_action")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for falling and impact actions.")
+                panel:CheckBox("Enable Fall Damage Actions", "javox_fall_damage_action")
+            end
         end)
 
     -- Frag / Grenades
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Frag", "Frag Grenades", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for throwing or dodging explosives.")
-            panel:CheckBox("Enable Frag Lines", "javox_frag_enable")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for throwing or dodging explosives.")
+                panel:CheckBox("Enable Frag Lines", "javox_frag_enable")
+            end
         end)
 
     -- Nods / Gestures
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Nods", "Nods & Gestures", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for physical head nods and negative responses.")
-            panel:CheckBox("Enable Standard Nods", "javox_nod_enabled")
-            panel:CheckBox("Enable Negative Nods", "javox_nod_negative_enabled")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for physical head nods and negative responses.")
+                panel:CheckBox("Enable Standard Nods", "javox_nod_enabled")
+                panel:CheckBox("Enable Negative Nods", "javox_nod_negative_enabled")
+            end
         end)
 
     -- Reloading
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Reload", "Weapon Reloading", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for reloading weapons.")
-            panel:CheckBox("Enable Reload Actions", "javox_reload_action_enabled")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for reloading weapons.")
+                panel:CheckBox("Enable Reload Actions", "javox_reload_action_enabled")
+            end
         end)
 
     -- Saving System
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Saving", "Data Saving", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Settings for data persistence and saving.")
-            panel:CheckBox("Enable Module Saving", "javox_saving_enabled")
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Settings for data persistence and saving.")
+                panel:CheckBox("Enable Module Saving", "javox_saving_enabled")
+            end
         end)
 end)
