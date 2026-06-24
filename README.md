@@ -69,7 +69,7 @@ The differences are:
 	- **Performant State**: Handles queue swapping, monolithic action management, delaying audio while maintaining perfect state, and shuffling audio for variety
 - **JaVox has modules for pinging, visual feedback for spotting entities, as well as feedback for losing entities** after periods of time.
 - **JaVox has modules for inferred head nodding (yes/no) by tracking player movements** and nod changes.
-- **JaVox has a high-performance scheduler to replace timer-based systems entirely.**
+- **JaVox has a high-performance timeline to replace timer-based systems entirely.**
 - **ALL** JaVox modules have the ability to be disabled entirely.
 
 ### JaVox Module Methods
