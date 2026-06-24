@@ -1,6 +1,6 @@
 # JaVOX
 
-A modern, secure VOX addon for Garry's Mod, built on the shoulders of the **PVox** addon.
+A contextual dialogue engine that originally began as a rewrite of PVox, but expanded into its own audio engine with delays, throttling, a dedicated timeline for incredible performance enhancements, and more.
 
 ## JaVox Docs
 
