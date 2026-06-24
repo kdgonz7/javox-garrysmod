@@ -27,6 +27,7 @@ A small breakdown:
 - `JaVox.State`: Manages player states. This is what manages priorities (to play a sound after the current one, play and cut this one off, wait to receive another input, or play it randomly.)
 - `JaVox.Crud`: Manages CRUD operations for the JaVox system.
 - `JaVox.Scheduler/Timeline`: Manages audio placement and playing
+- `JaVox.FSBuilder`: The JaVox functionality responsible for building FS-based action packs.
 
 ### JaVox Default Action Modules
 
