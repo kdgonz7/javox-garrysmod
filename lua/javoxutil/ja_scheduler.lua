@@ -14,6 +14,7 @@
 ---@class PlayerMeta
 ---@field Queue table<QueueItem>
 ---@field nextAvailableTime number Defines the time when the next sound can be played.
+---@field activeSound string|nil Defines the currently playing sound.
 
 ---@class JaVoxScheduler
 ---@field Players table<number, PlayerMeta>
@@ -24,10 +25,11 @@ JaVox.Scheduler = JaVox.Scheduler or {
 function JaVox.Scheduler:ClearQueue(plyEntIndex)
     if not self.Players[plyEntIndex] then return end
     for i = 1, #self.Players[plyEntIndex].Queue do
-        Entity(plyEntIndex):StopSound(self.Players[plyEntIndex].Queue[i].targetSound)
+        Entity(plyEntIndex):StopSound(self.Players[plyEntIndex].activeSound)
     end
     self.Players[plyEntIndex].Queue = {}
     self.Players[plyEntIndex].nextAvailableTime = 0
+    self.Players[plyEntIndex].activeSound = nil
 end
 
 function JaVox.Scheduler:Enqueue(ply, item)
@@ -60,7 +62,8 @@ function JaVox.Scheduler:EnsureScheduled(plyEntIndex)
     if not self.Players[plyEntIndex] then
         self.Players[plyEntIndex] = {
             Queue = {},
-            nextAvailableTime = 0
+            nextAvailableTime = 0,
+            activeSound = nil
         }
     end
 end
@@ -104,6 +107,7 @@ hook.Add("Think", "JaVoxScheduler", function()
             end
 
             ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
+            JaVox.Scheduler.Players[entIndex].activeSound = dq.targetSound
         end
     end
 end)
