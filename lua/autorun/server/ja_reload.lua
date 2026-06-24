@@ -14,6 +14,13 @@ local javox_out_of_ammo_action_enabled = CreateConVar(
     "Enable JaVox out of ammo action"
 )
 
+local javox_no_ammo_left_action_enabled = CreateConVar(
+    "javox_no_ammo_left_action_enabled",
+    "1",
+    { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+    "Enable JaVox no ammo left action"
+)
+
 hook.Add("KeyPress", "JaVox Key Press Test", function(ply, key)
     if key == IN_RELOAD then
         local activeWeapon = ply:GetActiveWeapon()
@@ -33,6 +40,16 @@ hook.Add("KeyPress", "JaVox Key Press Test", function(ply, key)
             JaVox.Director:emitActionFromPlayer(ply, "weaponry.out_of_ammo")
             return
         end
+
+        if activeWeapon:Clip2() <= 0 then
+            if not javox_no_ammo_left_action_enabled:GetBool() then
+                return
+            end
+
+            JaVox.Director:emitActionFromPlayer(ply, "weaponry.no_ammo_left")
+            return
+        end
+
 
         if not javox_reload_action_enabled:GetBool() then
             return
