@@ -1,4 +1,4 @@
-local SHAKE_WINDOW = CreateConVar("javox_nod_negative_threshold", "0.1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+local SHAKE_WINDOW = CreateConVar("javox_nod_negative_threshold", "0.22", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Time window to complete the head shake")
 local SHAKE_THRESH = 22        -- minimum yaw change (degrees) to count as a deliberate move
 local SHAKE_COUNT_REQUIRED = 3 -- l > r > l
