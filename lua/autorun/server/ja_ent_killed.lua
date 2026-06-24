@@ -40,14 +40,11 @@ hook.Add("EntityTakeDamage", "JaVox built-in damage hook", function(target, dmg)
 
             if table.HasValue(BLACKLISTED, dmg:GetAmmoType()) then return end
             if target:IsRagdoll() and ! target:GetNWBool("JaVox_ConfirmedDead", false) then
-                JaVox.Director:emitActionFromPlayer(inflictor, "ents.entConfirmKillGeneric") -- TODO: here too with specific.
-                -- TODO: if the user wants to treeshake into entKillGeneric they can do that.
+                JaVox.Director:emitActionFromPlayer(inflictor, "ents.kill.confirm")
                 target:SetNWBool("JaVox_ConfirmedDead", true)
                 return
             end
 
-            -- TODO: JaVox.Helper:emitSpecificCall(target:GetClass(), "ents.specific.") -> ents.specific.npc_combine_s
-            -- nvm future me. i think we have it figured out now. 2026 - 11:05 PM
             local entityName = target:GetClass()
             local actionName = "ents.kill." .. entityName
             JaVox.Director:emitActionFromPlayer(inflictor, actionName)

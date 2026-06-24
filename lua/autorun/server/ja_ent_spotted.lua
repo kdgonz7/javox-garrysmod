@@ -89,18 +89,18 @@ hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
 
         for i = 1, #aimedAtEntities do
             if not isSomething(aimedAtEntities[i]) then
-                return
+                continue
             end
 
             if ServerEntQueue:IsSpotted(aimedAtEntities[i]) then
-                return
+                continue
             end
 
             if not ply:Visible(aimedAtEntities[i]) then
-                return
+                continue
             end
 
-            if not aimedAtEntities[i].Disposition then return end
+            if not aimedAtEntities[i].Disposition then continue end
 
             -- if we hate the entity
             if aimedAtEntities[i]:Disposition(ply) == D_HT then
