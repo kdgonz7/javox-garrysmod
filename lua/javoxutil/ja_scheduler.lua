@@ -2,14 +2,15 @@
 -- Handles audio delays and play times.
 -- Direct replacement for the dual-timer architecture.
 
----@class QueueItem
----@field targetSound string
----@field startTime number
----@field endTime number
----@field volume number
----@field pitch number
----@field duration number
----@field delay number
+---@class QueueItem A queue item for the scheduler to play.
+---@field targetSound string The sound to be played.
+---@field startTime number The time when the sound will start.
+---@field endTime number The time when the sound will end.
+---@field volume number The volume of the sound.
+---@field pitch number The pitch of the sound.
+---@field duration number The duration of the sound.
+---@field delay number The delay before the sound is played.
+---@field tailEndBreath number The duration of the tail end breath after the sound. Adds to the duration.
 
 ---@class PlayerMeta
 ---@field Queue table<QueueItem>
@@ -25,7 +26,9 @@ JaVox.Scheduler = JaVox.Scheduler or {
 function JaVox.Scheduler:ClearQueue(plyEntIndex)
     if not self.Players[plyEntIndex] then return end
     for i = 1, #self.Players[plyEntIndex].Queue do
-        Entity(plyEntIndex):StopSound(self.Players[plyEntIndex].activeSound)
+        local activeSoundForPlayer = self.Players[plyEntIndex].Queue[i].activeSound
+        if not activeSoundForPlayer then continue end
+        Entity(plyEntIndex):StopSound(activeSoundForPlayer)
     end
     self.Players[plyEntIndex].Queue = {}
     self.Players[plyEntIndex].nextAvailableTime = 0
@@ -42,7 +45,7 @@ function JaVox.Scheduler:Enqueue(ply, item)
     item.startTime = math.max(CurTime(), playerEntry.nextAvailableTime) + (item.delay or 0)
 
     table.insert(self.Players[ply:EntIndex()].Queue, item)
-    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration
+    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration + (item.tailEndBreath or 0)
 
     -- print("Enqueueing item for player", ply:EntIndex())
     -- print("Item start time:", item.startTime)
