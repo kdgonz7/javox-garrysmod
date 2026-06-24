@@ -116,7 +116,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         return
     end
 
-    if ! soundToPlay then return print(soundToPlay, "not a sound") end
+    if ! soundToPlay then return print(name, "not a sound") end
     --- @cast soundToPlay string
 
     -- Delay & Chance to not play setup
@@ -180,6 +180,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         pitch = actionObject.pitch or 100,
         duration = durationOfSound,
         delay = waitTime,
+        tailEndBreath = actionObject.tailEndBreath or 0
     }
 
 
