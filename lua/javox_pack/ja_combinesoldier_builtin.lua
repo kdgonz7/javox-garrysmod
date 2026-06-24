@@ -86,7 +86,7 @@ JaVox:registerModule("combine-soldier-builtin", {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                 delay = {
                     min = 0.2,
-                    max = 0.9,
+                    max = 0.4,
                 },
 
                 audioFiles = {
@@ -99,11 +99,11 @@ JaVox:registerModule("combine-soldier-builtin", {
                 }
             },
 
-            ["entSpottedGeneric"] = {
+            ["spotted"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                 delay = {
                     min = 0.2,
-                    max = 0.9,
+                    max = 0.3,
                 },
 
                 audioFiles = {
@@ -114,10 +114,12 @@ JaVox:registerModule("combine-soldier-builtin", {
                     "npc/combine_soldier/vo/outbreakstatusiscode.wav",
                     "npc/combine_soldier/vo/movein.wav",
                     "npc/combine_soldier/vo/engaging.wav",
-                }
+                },
+
+                -- note: you can now have ["npc_combine_s"] here. it supports it
             },
 
-            ["entKillGeneric"] = {
+            ["kill"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                 delay = {
                     min = 0.2,
@@ -196,8 +198,8 @@ JaVox:registerModule("combine-soldier-builtin", {
                     "npc/combine_soldier/vo/dash.wav",
                 },
                 delay = {
-                    min = 0.3,
-                    max = 0.5,
+                    min = 0.1,
+                    max = 0.2,
                 },
                 throttle = {
                     after = 1,

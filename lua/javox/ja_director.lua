@@ -95,6 +95,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     local soundToPlay = nil
     local playerEntIndex = player:SteamID64()
 
+
     -- Audio file selector:
     --      Audio files are string -> Use it
     --      Audio files are string[] -> Grab a random one
@@ -118,134 +119,92 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     if ! soundToPlay then return print(soundToPlay, "not a sound") end
     --- @cast soundToPlay string
 
-    --- Plays selected sound from player, following the delay rules.
-    --- @param sound string
-    --- @param willDefer boolean
-    local function playSelectedFromPlayer(sound, willDefer)
-        -- Delay & Chance to not play setup
-        --          1 in chanceToNotPlay chance that it won't play (if chanceToNotPlay exists)
-        --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
-        -- TODO: add some convars to have a default if delay not specific. Or just to override.
+    -- Delay & Chance to not play setup
+    --          1 in chanceToNotPlay chance that it won't play (if chanceToNotPlay exists)
+    --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
+    -- TODO: add some convars to have a default if delay not specific. Or just to override.
 
-        -- local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
-        local waitTime = JaVox.Director:convertConformingMinMaxesToRandomValue(
-            actionObject.delay,
-            JaVox.Director.sensibleDefaults.delay
-        )
+    -- local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
+    local waitTime = JaVox.Director:convertConformingMinMaxesToRandomValue(
+        actionObject.delay,
+        JaVox.Director.sensibleDefaults.delay
+    )
 
-        -- last one. random chance to not play
-        if actionObject.delay and actionObject.delay.chanceToNotPlay then
-            if math.random(actionObject.delay.chanceToNotPlay) == 1 then
-                return
-            end
+    -- last one. random chance to not play
+    if actionObject.delay and actionObject.delay.chanceToNotPlay then
+        if math.random(actionObject.delay.chanceToNotPlay) == 1 then
+            return
         end
-
-        -- is this safe?
-        actionObject.throttle = actionObject.throttle or JaVox.Director.sensibleDefaults.throttle
-
-        -- if action has throttling attached
-        if actionObject.throttle then
-            if JaVox.State:playerIsThrottling(playerEntIndex) then
-                -- print("Still going for action", name)
-                return
-            end
-
-            -- if we are in that a throttle-worthy action, increment throttle points
-            -- then check if that's our limit. if so, then we begin throttling (waiting)
-            -- and set a timer to clear the throttling.
-            if JaVox.State:isThrottlingAction(playerEntIndex, name) then
-                JaVox.State:incrementThrottlePoints(playerEntIndex)
-
-                if JaVox.State:playerShouldThrottle(playerEntIndex) then
-                    JaVox.State:beginThrottle(playerEntIndex, name, actionObject.throttle)
-
-                    local randomTimeThrottle = math.random(actionObject.throttle.min, actionObject.throttle.max)
-
-                    timer.Simple(randomTimeThrottle, function()
-                        JaVox.State:clearThrottle(playerEntIndex)
-                    end)
-
-                    return
-                end
-            else
-                JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
-            end
-        end
-        -- throttle check ended.
-
-        -- timer phase:
-        --      Call a timer that checks if there's audio playing and there's a plan to defer it.
-        --      Stop sound if this should take precedence. Emit the sound, check the duration and set a second timer
-        --          to cancel it and run a next one in the queue (if there is one, and if PLAY_ONCE_WITHOUT_DEFERRAL isn't used.)
-        timer.Simple(waitTime, function()
-            if ! IsValid(player) then return end
-            local currentAudio = JaVox.State:getPlayerCurrentAudio(playerEntIndex)
-
-            if willDefer and currentAudio then return end
-            if ! willDefer and currentAudio then
-                player:StopSound(currentAudio)
-            end
-
-            player:EmitSound(
-                sound,
-                actionObject.reach or 100,
-                actionObject.pitch or 100,
-                actionObject.volume or 1
-            )
-
-
-            local durationOfSound = SoundDuration(sound)
-            if durationOfSound <= 0 then durationOfSound = 1.0 end
-
-            --- These lines of code set the player's current audio, then wait until the end of the projected duration
-            --- and then remove that one. It checks for a reserve sound, then plays it, repeating this process.
-            JaVox.State:setPlayerCurrentAudio(playerEntIndex, sound)
-            timer.Simple(durationOfSound, function()
-                if ! IsValid(player) then return end
-
-                JaVox.State:setPlayerCurrentAudio(playerEntIndex, nil)
-                local reserve = JaVox.State:getPlayerQueuedNext(playerEntIndex)
-
-                if reserve then
-                    JaVox.State:setPlayerQueuedNext(playerEntIndex, nil)
-                    playSelectedFromPlayer(reserve, true)
-                end
-            end)
-        end)
     end
+
+    -- is this safe?
+    actionObject.throttle = actionObject.throttle or JaVox.Director.sensibleDefaults.throttle
+
+    -- if action has throttling attached
+    if actionObject.throttle then
+        if JaVox.State:playerIsThrottling(playerEntIndex) then
+            -- print("Still going for action", name)
+            return
+        end
+
+        -- if we are in that a throttle-worthy action, increment throttle points
+        -- then check if that's our limit. if so, then we begin throttling (waiting)
+        -- and set a timer to clear the throttling.
+        if JaVox.State:isThrottlingAction(playerEntIndex, name) then
+            JaVox.State:incrementThrottlePoints(playerEntIndex)
+
+            if JaVox.State:playerShouldThrottle(playerEntIndex) then
+                JaVox.State:beginThrottle(playerEntIndex, name, actionObject.throttle)
+
+                local randomTimeThrottle = math.random(actionObject.throttle.min, actionObject.throttle.max)
+
+                timer.Simple(randomTimeThrottle, function()
+                    JaVox.State:clearThrottle(playerEntIndex)
+                end)
+
+                return
+            end
+        else
+            JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
+        end
+    end
+    -- throttle check ended.
+
+    local durationOfSound = SoundDuration(soundToPlay)
+    if durationOfSound <= 0 then durationOfSound = 1.0 end
+
+    -- new time architecture:
+    local queueItem = {
+        targetSound = soundToPlay,
+        volume = actionObject.volume or 100,
+        pitch = actionObject.pitch or 100,
+        duration = durationOfSound,
+        delay = waitTime,
+    }
+
 
     actionObject.priority = actionObject.priority or JaVox.Director.sensibleDefaults.priority
 
+    JaVox.Scheduler:EnsureScheduled(player:EntIndex())
     -- Priority selector:
-    --      deferral  : will set next in queue if already have one going.
+    --      deferral  : will set next in queue
     --      oncew/od  : will ignore any requests until sound is done (no more playing)
     --      immediate : play immediately. do not care.
     --      uniquely  : probably keep track. ??? x
     if actionObject.priority == AudioPriority.PLAY_DEFERRED then
-        local currentPlaying = JaVox.State:getPlayerCurrentAudio(playerEntIndex)
-        if currentPlaying then
-            JaVox.State:setPlayerQueuedNext(playerEntIndex, soundToPlay)
-            return
-        end
-
-        playSelectedFromPlayer(soundToPlay, true)
+        JaVox.Scheduler:Enqueue(player, queueItem)
     elseif actionObject.priority == AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL then
-        local currentPlaying = JaVox.State:getPlayerCurrentAudio(playerEntIndex)
-        if currentPlaying then
-            return --- only difference from  this and deferred.
-        end
-
-        playSelectedFromPlayer(soundToPlay, true)
-    elseif actionObject.priority == AudioPriority.PLAY_IMMEDIATE then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        playSelectedFromPlayer(soundToPlay, false)
-    elseif actionObject.priority == AudioPriority.PLAY_UNIQUELY then
-        if JaVox.State:getPlayerLastUnique(playerEntIndex) == name then
+        if JaVox.Scheduler:IsSpeaking(player:EntIndex()) then
             return
         end
 
-        JaVox.State:setPlayerLastUnique(playerEntIndex, name)
-        playSelectedFromPlayer(soundToPlay, false)
+        JaVox.Scheduler:Enqueue(player, queueItem)
+    elseif actionObject.priority == AudioPriority.PLAY_IMMEDIATE then
+        JaVox.Scheduler:ClearQueue(player:EntIndex())
+        JaVox.Scheduler:Enqueue(player, queueItem)
+    elseif actionObject.priority == AudioPriority.PLAY_UNIQUELY then
+        JaVox.Scheduler:ClearQueue(player:EntIndex())
+        -- FIXME: how the FUCK is this supposed to work with the scheduler?
     end
 end
 
