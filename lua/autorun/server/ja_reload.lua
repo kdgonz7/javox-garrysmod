@@ -21,6 +21,7 @@ hook.Add("KeyPress", "JaVox Key Press Test", function(ply, key)
         if activeWeapon:Clip1() >= activeWeapon:GetMaxClip1() then
             return
         end
+
         -- TODO: check for ammo types.
         JaVox.Director:emitActionFromPlayer(ply, "weaponry.reload")
     end
