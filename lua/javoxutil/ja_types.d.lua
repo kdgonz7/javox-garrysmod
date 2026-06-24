@@ -24,7 +24,6 @@ AudioPriority = {
 --- @field reach number? How far the sound reaches. Default 100.
 --- @field delay DelaySettings? How much the sound should delay.
 --- @field throttle ThrottleSettings? Settings for defining a sound's throttle action.
---- @field tailEndBreath number? The duration of the tail end breath after the sound. Adds to the duration.
 
 --- @class ThrottleSettings
 --- @field min number The minimum amount of time it will throttle for.
