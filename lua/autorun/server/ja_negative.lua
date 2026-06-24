@@ -1,4 +1,5 @@
-local SHAKE_WINDOW = 0.3       -- time window to complete the head shake
+local SHAKE_WINDOW = CreateConVar("javox_nod_negative_threshold", "0.3", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+    "Time window to complete the head shake")
 local SHAKE_THRESH = 22        -- minimum yaw change (degrees) to count as a deliberate move
 local SHAKE_COUNT_REQUIRED = 3 -- l > r > l
 local SHAKE_THROTTLE = 2.0     -- no spamming javox
@@ -44,7 +45,7 @@ hook.Add("Think", "JaVox_DetectServerHeadShake", function()
         if peakDiff > 180 then peakDiff = peakDiff - 360 elseif peakDiff < -180 then peakDiff = peakDiff + 360 end
 
         for i = #data.history, 1, -1 do
-            if currentTime - data.history[i] > SHAKE_WINDOW then
+            if currentTime - data.history[i] > SHAKE_WINDOW:GetFloat() then
                 table.remove(data.history, i)
             end
         end

@@ -135,6 +135,7 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
                 panel:Help("Settings for physical head nods and negative responses.")
                 panel:CheckBox("Enable Standard Nods", "javox_nod_enabled")
                 panel:CheckBox("Enable Negative Nods", "javox_nod_negative_enabled")
+                panel:NumSlider("Negative Nod Threshold", "javox_nod_negative_threshold", 0, 10, 2)
             end
         end)
 
