@@ -28,6 +28,7 @@ local defaults = {
 --- @field author string|string[]? The author(s) of the module.
 --- @field description string? The description of the module.
 --- @field tags string[]? Tags for the module.
+--- @field defaults PlayerVoxAction Default values for the module's actions.
 
 --- Builds a vox pack from a filesystem directory.
 --- @param options JaVoxFSBuilderOptions
@@ -68,12 +69,12 @@ function JaVox.FSBuilder:BuildFromFilesystem(options)
             --- @type PlayerVoxAction
             local actionData = {
                 audioFiles = audioFiles,
-                priority = defaults.priority,
-                volume = defaults.volume,
-                pitch = defaults.pitch,
-                reach = defaults.reach,
-                delay = defaults.delay,
-                throttle = defaults.throttle
+                priority = options.defaults.priority or defaults.priority,
+                volume = options.defaults.volume or defaults.volume,
+                pitch = options.defaults.pitch or defaults.pitch,
+                reach = options.defaults.reach or defaults.reach,
+                delay = options.defaults.delay or defaults.delay,
+                throttle = options.defaults.throttle or defaults.throttle
             }
 
             -- put action data into the current table
