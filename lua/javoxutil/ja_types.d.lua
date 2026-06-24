@@ -28,7 +28,7 @@ AudioPriority = {
 --- @class ThrottleSettings
 --- @field min number The minimum amount of time it will throttle for.
 --- @field max number The maximum amount of time it will throttle for.
---- @field after number How many calls of this particular action does it take to require throttling?
+--- @field after number? [DEPRECATED FOR NOW] How many calls of this particular action does it take to require throttling?
 --- @field willAffectOtherActions boolean? Will this throttle affect the calling of other actions?
 
 --- @class DelaySettings
