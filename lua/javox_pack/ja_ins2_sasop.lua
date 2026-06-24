@@ -59,11 +59,11 @@ JaVox:registerModule("ins2-sas-operator", {
         },
 
         ["ents"] = {
-            ["entKillGeneric"] = {
+            ["kill"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                 delay = {
                     min = 0.1,
-                    max = 0.3,
+                    max = 0.7,
                     chanceToNotPlay = 2,
                 },
                 audioFiles = {
@@ -79,7 +79,7 @@ JaVox:registerModule("ins2-sas-operator", {
                 }
             },
 
-            ["entSpottedGeneric"] = {
+            ["spotted"] = {
                 priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                 delay = {
                     min = 0.2,
