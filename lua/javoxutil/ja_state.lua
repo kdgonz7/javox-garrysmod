@@ -108,13 +108,6 @@ function JaVox.State:getPlayerLastCallout(playerIndex)
     return self.players[playerIndex].callout.lastCallout
 end
 
----Inserts an audio voice line into the play pool of `playerIndex`.
----@param playerIndex string
----@param sound string
-function JaVox.State:insertIntoPlayPool(playerIndex, sound)
-    table.insert(self.players[playerIndex].playPool, sound)
-end
-
 ---Begins keeping track of player throttle state
 ---@param playerIndex string
 ---@param action string
