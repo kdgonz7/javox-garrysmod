@@ -60,11 +60,10 @@ JaVox:registerModule("ins2-sas-operator", {
 
         ["ents"] = {
             ["kill"] = {
-                priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                priority = AudioPriority.PLAY_IMMEDIATE,
                 delay = {
-                    min = 0.1,
-                    max = 0.7,
-                    chanceToNotPlay = 2,
+                    min = 0.4,
+                    max = 0.9,
                 },
                 audioFiles = {
                     "javox/target1.wav",
@@ -80,11 +79,12 @@ JaVox:registerModule("ins2-sas-operator", {
             },
 
             ["spotted"] = {
-                priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
+                priority = AudioPriority.PLAY_DEFERRED,
                 delay = {
-                    min = 0.2,
-                    max = 0.9,
+                    min = 0.1,
+                    max = 0.4,
                 },
+                tailEndBreath = 0.5,
                 audioFiles = {
                     "javox/contact1.wav",
                     "javox/contact2.wav",
@@ -100,7 +100,7 @@ JaVox:registerModule("ins2-sas-operator", {
                     "javox/contact12.wav",
                     "javox/contact13.wav",
                     "javox/contact14.wav",
-                }
+                },
             }
         },
 
