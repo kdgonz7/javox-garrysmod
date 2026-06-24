@@ -27,6 +27,18 @@ A small breakdown:
 - `JaVox.State`: Manages player states. This is what manages priorities (to play a sound after the current one, play and cut this one off, wait to receive another input, or play it randomly.)
 - `JaVox.Crud`: Manages CRUD operations for the JaVox system.
 
+### JaVox Default Action Modules
+
+- `ja_arc9_jam.lua` -> (beware: slightly spammy) ARC9 weapon jamming support
+- `ja_ent_killed.lua` -> Entity kill voicelines
+- `ja_ent_spotted.lua` -> Entity spotted voicelines
+- `ja_fall_damage.lua` -> Fall damage module
+- `ja_shot_pain.lua` -> **NOT IMPLEMENTED** damage module
+- `ja_negative.lua` -> Implements a "no" nod by tracking player head movement side to side.
+- `ja_nod.lua` -> Implements a "yes" nod by tracking player head movement up and down.
+- `ja_reload.lua` -> Implements reloading for weaponry.
+- `ja_save.lua` -> Saves player presets (not configurable)
+
 ### JaVox Actions
 
 JaVox contains actions that have metadata attached to them. When you run an action, JaVox does a namespace lookup for your action in the format `a.b.c`, where `a` and `b` are both tables that have other tables that can either have tables or action metadata.
