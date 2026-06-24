@@ -19,9 +19,9 @@ function JaVox.CreateModule(id)
     return self
 end
 
----comment
----@param name string
----@return table
+--- Sets the display name for the module.
+--- @param name string
+--- @return table
 function ModBuilder:SetDisplayName(name)
     self.displayName = name
     return self
