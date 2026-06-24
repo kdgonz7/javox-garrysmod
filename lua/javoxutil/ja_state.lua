@@ -25,6 +25,7 @@ JaVox.State = JaVox.State or {
 ---@class PlayPool
 ---@field action string?
 ---@field queue string[]
+---@field last string?
 
 ---Registers a player into the current JaVox State Machine. Manages current audio, next play audio, etc.
 ---@param player Player?
@@ -44,6 +45,7 @@ function JaVox.State:registerPlayer(player)
         playPool = {
             action = nil,
             queue = {},
+            last = nil
         },
 
         throttleState = {
@@ -160,13 +162,11 @@ function JaVox.State:playerShouldThrottle(playerIndex)
     return self.players[playerIndex].throttleState.throtBudgCur == self.players[playerIndex].throttleState.throtBudgMax
 end
 
----Pops and returns a **RANDOM** sound from the play pool of playerIndex.
+--- Pops and returns a random sound from the player's play pool.
 ---
----Will reset the queue IF a different action is being played.
----
----If there are no more sounds left,
----it will replace the pool with new sounds from `withSounds` and shuffle. This function is safe to call without
----population prior.
+--- If the requested action changes, the pool is reset for that action.
+--- When the pool is empty, it is refilled from `withSounds` and shuffled.
+--- The last played sound is avoided when possible.
 ---@param playerIndex string
 ---@param withSounds string[]
 ---@param forAction string
@@ -185,7 +185,15 @@ function JaVox.State:popFromPlayPoolOf(playerIndex, withSounds, forAction)
         table.Shuffle(pool)
     end
 
-    return table.remove(pool, #pool)
+    local sound = table.remove(pool, #pool)
+
+    if sound == self.players[playerIndex].playPool.last and #pool > 0 then
+        table.insert(pool, 1, sound)
+        sound = table.remove(pool, #pool)
+    end
+
+    self.players[playerIndex].playPool.last = sound
+    return sound
 end
 
 function JaVox.State:clearPlayerQueue(playerIndex)
