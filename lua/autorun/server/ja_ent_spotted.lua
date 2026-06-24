@@ -106,13 +106,8 @@ hook.Add("KeyPress", "JaVox Aim Spot Feature", function(ply, key)
             if aimedAtEntities[i]:Disposition(ply) == D_HT then
                 --- @cast ply Player
                 local entityName = aimedAtEntities[i]:GetClass()
-                local actionName = "ents.entSpotted." .. entityName
 
-                if entityName and JaVox.Crud:getActionFromModule(ply:GetNWString(JAVOX_PRESET, 'none'), actionName) ~= nil then
-                    JaVox.Director:emitActionFromPlayer(ply, actionName)
-                else
-                    JaVox.Director:emitActionFromPlayer(ply, "ents.entSpottedGeneric")
-                end
+                JaVox.Director:emitActionFromPlayer(ply, "ents.spotted." .. entityName)
 
                 ServerEntQueue:Spot(aimedAtEntities[i], ply)
                 net.Start("JaVox_EntSpotted")

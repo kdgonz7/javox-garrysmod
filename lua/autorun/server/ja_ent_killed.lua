@@ -47,14 +47,10 @@ hook.Add("EntityTakeDamage", "JaVox built-in damage hook", function(target, dmg)
             end
 
             -- TODO: JaVox.Helper:emitSpecificCall(target:GetClass(), "ents.specific.") -> ents.specific.npc_combine_s
+            -- nvm future me. i think we have it figured out now. 2026 - 11:05 PM
             local entityName = target:GetClass()
-            local actionName = "ents.killSpecific." .. entityName
-            if entityName and JaVox.Crud:getActionFromModule(inflictor:GetNWString(JAVOX_PRESET, 'none'), actionName) ~= nil then
-                JaVox.Director:emitActionFromPlayer(inflictor, actionName)
-                return
-            end
-
-            JaVox.Director:emitActionFromPlayer(inflictor, "ents.entKillGeneric")
+            local actionName = "ents.kill." .. entityName
+            JaVox.Director:emitActionFromPlayer(inflictor, actionName)
         end
     end
 end)
