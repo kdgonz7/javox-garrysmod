@@ -30,7 +30,7 @@ end
 ---@param moduleName string?
 ---@param action string?
 ---@return PlayerVoxAction|JaVoxError?
-function JaVox.Crud:getActionFromModule(moduleName, action)
+function JaVox.Crud:getActionFromModule(moduleName, action, useFallbacks)
     if ! moduleName then return JaVox:errorWithMessage(string.format("potential access missing module param.")) end
     if ! action then
         JaVox:errorWithMessage(string.format("potential access for '%s' missing action param.",
@@ -43,7 +43,7 @@ function JaVox.Crud:getActionFromModule(moduleName, action)
 
 
     ---@diagnostic disable-next-line: param-type-mismatch
-    return self:resolveActions(moduleObj, action)
+    return self:resolveActions(moduleObj, action, useFallbacks)
 end
 
 ---comment
