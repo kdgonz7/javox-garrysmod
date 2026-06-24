@@ -4,7 +4,7 @@ local SHAKE_THRESH = 22        -- minimum yaw change (degrees) to count as a del
 local SHAKE_COUNT_REQUIRED = 3 -- l > r > l
 local SHAKE_THROTTLE = 2.0     -- no spamming javox
 
-local NEGATIVE_NOD_ENABLED = CreateConVar("javox_nod_negative_enabled", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+local NEGATIVE_NOD_ENABLED = CreateConVar("javox_nod_negative_enabled", "0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Enable head nod detection for negative responses")
 
 -- tracking data for all players on the server
