@@ -25,14 +25,15 @@ JaVox.Scheduler = JaVox.Scheduler or {
 
 function JaVox.Scheduler:ClearQueue(plyEntIndex)
     if not self.Players[plyEntIndex] then return end
-    for i = 1, #self.Players[plyEntIndex].Queue do
-        local activeSoundForPlayer = self.Players[plyEntIndex].activeSound
-        if not activeSoundForPlayer then continue end
-        Entity(plyEntIndex):StopSound(activeSoundForPlayer)
+    local player = self.Players[plyEntIndex]
+
+    if player.activeSound then
+        Entity(plyEntIndex):StopSound(player.activeSound)
     end
-    self.Players[plyEntIndex].Queue = {}
-    self.Players[plyEntIndex].nextAvailableTime = 0
-    self.Players[plyEntIndex].activeSound = nil
+
+    player.Queue = {}
+    player.nextAvailableTime = 0
+    player.activeSound = nil
 end
 
 function JaVox.Scheduler:Enqueue(ply, item)
@@ -46,11 +47,6 @@ function JaVox.Scheduler:Enqueue(ply, item)
 
     table.insert(self.Players[ply:EntIndex()].Queue, item)
     self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration + (item.tailEndBreath or 0)
-
-    -- print("Enqueueing item for player", ply:EntIndex())
-    -- print("Item start time:", item.startTime)
-    -- print("Item duration:", item.duration)
-    -- print("Next available time:", playerEntry.nextAvailableTime)
 end
 
 function JaVox.Scheduler:Dequeue(plyEntIndex)
@@ -104,8 +100,9 @@ hook.Add("Think", "JaVoxScheduler", function()
             -- print("Pitch:", dq.pitch)
 
             local ply = Entity(entIndex)
+            --- @cast ply Player
             if not ply then continue end
-            if not ply:IsValid() then
+            if not ply:IsValid() or not ply:IsConnected() then
                 JaVox.Scheduler:ClearFromQueue(entIndex)
                 continue
             end
