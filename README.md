@@ -71,3 +71,10 @@ The differences are:
 - **JaVox has modules for inferred head nodding (yes/no) by tracking player movements** and nod changes.
 - **JaVox has a high-performance scheduler to replace timer-based systems entirely.**
 - **ALL** JaVox modules have the ability to be disabled entirely.
+
+### JaVox Module Methods
+
+- `ja_fs_builder.lua` -> a recursive filesystem-based VOX builder that scans directories and maps them to actions (modern way)
+- `ja_pvox_builder.lua` -> a flat, one-way translator for old PVOX packs.
+- `ja_builder.lua` -> a modern-day builder pattern for creating VOX packs.
+- `JaVox:registerModule(id, payload)` -> The "classic" and most feature-dense way of creating a module.
