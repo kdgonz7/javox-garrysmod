@@ -8,7 +8,7 @@ JaVox.FSBuilder = JaVox.FSBuilder or {}
 
 local defaults = {
     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-    volume = 1,
+    volume = 100,
     pitch = 100,
     reach = 100,
     delay = {
