@@ -1,5 +1,5 @@
 # JaVOX
-
+# 🚨 NOTICE FOR PVox users: the original repository is NOT archived yet. But this addon is in its final stages and will be released either June 24th, or the 25th.
 A contextual dialogue engine that originally began as a rewrite of PVox, but expanded into its own audio engine with delays, throttling, a dedicated timeline for incredible performance enhancements, and more.
 
 ## JaVox Docs
