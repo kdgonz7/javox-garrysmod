@@ -16,8 +16,9 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     if IsValid(MyFrame) then MyFrame:Remove() end
 
     MyFrame = vgui.Create("DFrame")
-    MyFrame:SetPos(ScrH() * 0.25, ScrH() * 0.25)
-    MyFrame:SetSize(ScrW() * 0.45, ScrH() * 0.50)
+    MyFrame:SetSize(ScrW() * 0.55, ScrH() * 0.50)
+    MyFrame:Center()
+
     MyFrame:SetTitle("JaVox Manager")
     MyFrame:SetVisible(true)
     MyFrame:SetDraggable(true)
@@ -26,6 +27,12 @@ concommand.Add("javox_vox_mgr", function(ply, cmd, args, argStr)
     MyFrame.Paint = function(self, w, h)
         draw.RoundedBox(8, 0, 0, w, h, Color(41, 37, 36))
     end
+
+    local banner = vgui.Create("DImage", MyFrame)
+    banner:Dock(TOP)              -- should set wide
+    banner:DockMargin(4, 4, 4, 4) -- some margin
+    banner:SetHeight(100)
+    banner:SetImage("javox/JaVoxModuleManagerPic.png")
 
     local TheScroller = vgui.Create("DScrollPanel", MyFrame)
     TheScroller:Dock(FILL)
