@@ -2,7 +2,7 @@ local NOD_WINDOW = 0.3       -- time window for nod
 local NOD_THRESH = 15        -- min difference
 local NOD_COUNT_REQUIRED = 3 -- number of direction changes to trigger (e.g., up -> down -> up)
 
-local NOD_ENABLED = CreateConVar("javox_nod_enabled", "1", { FCVAR_ARCHIVE }, "Enable head nod detection")
+local NOD_ENABLED = CreateConVar("javox_nod_enabled", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY }, "Enable head nod detection")
 
 -- Table to store tracking data for each player
 ---@diagnostic disable-next-line: undefined-global

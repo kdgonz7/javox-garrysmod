@@ -10,7 +10,7 @@ local BLACKLISTED = {
 }
 
 local ENABLE_ENTITY_KILL_ACTIONS = CreateConVar("javox_enable_entity_kills", "1",
-    { FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE }, "Enable JaVox entity kill actions")
+    { FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE, FCVAR_NOTIFY }, "Enable JaVox entity kill actions")
 
 print("Entity kill module loaded!")
 

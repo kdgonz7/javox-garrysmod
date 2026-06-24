@@ -1,4 +1,4 @@
-local DamageModuleEnabled = CreateConVar("javox_damage_module_enabled", "1", { FCVAR_ARCHIVE },
+local DamageModuleEnabled = CreateConVar("javox_damage_module_enabled", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Enable the damage module for JaVox.")
 
 

@@ -3,7 +3,7 @@ print("JaVox reload module loaded!")
 local javox_reload_action_enabled = CreateConVar(
     "javox_reload_action_enabled",
     "1",
-    { FCVAR_ARCHIVE, FCVAR_REPLICATED },
+    { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Enable JaVox reload action"
 )
 

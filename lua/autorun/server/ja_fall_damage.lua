@@ -1,4 +1,5 @@
-local javox_fall_damage_enabled = CreateConVar("javox_fall_damage_action", "1", { FCVAR_ARCHIVE, FCVAR_REPLICATED },
+local javox_fall_damage_enabled = CreateConVar("javox_fall_damage_action", "1",
+    { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
     "Enable or disable Javox fall damage action")
 
 hook.Add("EntityTakeDamage", "Javox fall damage", function(target, dmg)
