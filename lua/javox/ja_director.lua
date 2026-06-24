@@ -124,7 +124,8 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     --          Delay is either a random value from min and max from actionObject.delay, or 0, but will be convar-supported for overriding.
     -- TODO: add some convars to have a default if delay not specific. Or just to override.
 
-    -- local waitTime = (actionObject.delay and math.random(actionObject.delay.min, actionObject.delay.max)) or 0
+    -- TODO: there are now multiple delays. Throttle + tailEndBreath.
+    -- TODO: ultimately i have to remove one because they both serve similar purposes
     local waitTime = JaVox.Director:convertConformingMinMaxesToRandomValue(
         actionObject.delay,
         JaVox.Director.sensibleDefaults.delay
@@ -137,38 +138,6 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         end
     end
 
-    -- is this safe?
-    actionObject.throttle = actionObject.throttle or JaVox.Director.sensibleDefaults.throttle
-
-    -- if action has throttling attached
-    if actionObject.throttle then
-        if JaVox.State:playerIsThrottling(playerEntIndex) then
-            -- print("Still going for action", name)
-            return
-        end
-
-        -- if we are in that a throttle-worthy action, increment throttle points
-        -- then check if that's our limit. if so, then we begin throttling (waiting)
-        -- and set a timer to clear the throttling.
-        if JaVox.State:isThrottlingAction(playerEntIndex, name) then
-            JaVox.State:incrementThrottlePoints(playerEntIndex)
-
-            if JaVox.State:playerShouldThrottle(playerEntIndex) then
-                JaVox.State:beginThrottle(playerEntIndex, name, actionObject.throttle)
-
-                local randomTimeThrottle = math.random(actionObject.throttle.min, actionObject.throttle.max)
-
-                timer.Simple(randomTimeThrottle, function()
-                    JaVox.State:clearThrottle(playerEntIndex)
-                end)
-
-                return
-            end
-        else
-            JaVox.State:registerThrottlingState(playerEntIndex, name, actionObject.throttle)
-        end
-    end
-    -- throttle check ended.
 
     local durationOfSound = SoundDuration(soundToPlay)
     if durationOfSound <= 0 then durationOfSound = 1.0 end
@@ -180,7 +149,10 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         pitch = actionObject.pitch or 100,
         duration = durationOfSound,
         delay = waitTime,
-        tailEndBreath = actionObject.tailEndBreath or 0
+        throttle = actionObject.throttle or {
+            min = 1,
+            max = 3,
+        }
     }
 
 
