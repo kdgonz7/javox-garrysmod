@@ -21,6 +21,28 @@ A small breakdown:
 - `binds` manages playermodel binds
 - `modules` manages the lua module system. **Potentially will receive a deletion**
 
+### JaVox Default Actions
+
+```lua
+--- Actions covered so far:
+---     | ents.lost                     | Action called when an entity is lost (loses sight of an entity).
+---     | ents.spotted.<entClass>       | Action called when an entity is spotted (spots an entity).
+---     | ents.kill.<entClass>          | Action called when an entity is killed (kills an entity).
+---     | self.damage.fall              | Action called when fall damage is taken.
+---     | callouts.stayalert            | Action called when the NPC needs to stay alert.
+---     | callouts.standingby           | Action called when the NPC is standing by.
+---     | weaponry.reload               | Action called when the weapon is reloaded.
+---     | weaponry.grenadeOut           | Action called when a grenade is thrown.
+---     | weaponry.jam                  | Action called when the weapon jams.
+---     | conversational.yes            | Action called when a "yes" response is detected.
+---     | conversational.no             | Action called when a "no" response is detected.
+---
+--- And even binds some callouts:
+---     | callouts.stayalert                | Action bound for stay alert (e.g. "Stay alert, report sidelines").
+---     | callouts.standingby               | Action bound for standing by (e.g. "Standing by, report status").
+---     | callouts.readyweapons             | Action bound for readying weapons (e.g. "Ready weapons").
+```
+
 ### JaVox Sub-Objects
 
 - `JaVox.Director`: Manages player audio outputs, anything that is sound-related is here.

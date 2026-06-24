@@ -13,22 +13,22 @@
 --- * If you register a callout into the callout table then you will have to supply an action. (example Ready Weapons references callouts.readyweapons)
 ---
 --- Actions covered so far:
----     | ents.lost                     | Called when the Combine Soldier loses sight of an entity.
----     | ents.spotted.<entClass>       | Called when the Combine Soldier spots an entity.
----     | ents.kill.<entClass>          | Called when the Combine Soldier kills an entity.
----     | self.damage.fall              | Called when the Combine Soldier takes fall damage.
----     | callouts.stayalert            | Called when the Combine Soldier stays alert.
----     | callouts.standingby           | Called when the Combine Soldier is standing by.
----     | weaponry.reload               | Called when the Combine Soldier reloads its weapon.
----     | weaponry.grenadeOut           | Called when the Combine Soldier throws a grenade.
----     | weaponry.jam                  | Called when the Combine Soldier's weapon jams.
----     | conversational.yes            | Called when the nod module detects a "yes" response.
----     | conversational.no             | Called when the nod module detects a "no" response.
+---     | ents.lost                     | Action called when an entity is lost (loses sight of an entity).
+---     | ents.spotted.<entClass>       | Action called when an entity is spotted (spots an entity).
+---     | ents.kill.<entClass>          | Action called when an entity is killed (kills an entity).
+---     | self.damage.fall              | Action called when fall damage is taken.
+---     | callouts.stayalert            | Action called when the NPC needs to stay alert.
+---     | callouts.standingby           | Action called when the NPC is standing by.
+---     | weaponry.reload               | Action called when the weapon is reloaded.
+---     | weaponry.grenadeOut           | Action called when a grenade is thrown.
+---     | weaponry.jam                  | Action called when the weapon jams.
+---     | conversational.yes            | Action called when a "yes" response is detected.
+---     | conversational.no             | Action called when a "no" response is detected.
 ---
 --- And even binds some callouts:
----     | callouts.stayalert                | Called when the Combine Soldier needs to stay alert (Stay alert, report sidelines).
----     | callouts.standingby               | Called when the Combine Soldier is standing by (Standing by, report status).
----     | callouts.readyweapons             | Called when the Combine Soldier is readying its weapons (Ready weapons).
+---     | callouts.stayalert                | Action bound for stay alert (e.g. "Stay alert, report sidelines").
+---     | callouts.standingby               | Action bound for standing by (e.g. "Standing by, report status").
+---     | callouts.readyweapons             | Action bound for readying weapons (e.g. "Ready weapons").
 
 
 -- NOTE TO SELF: this should never occur, since we're in javox/ that means the javox module is loading... well... javox
@@ -269,68 +269,3 @@ JaVox:registerModule("combine-soldier-builtin", {
         ["Ready Weapons"] = "callouts.readyweapons",
     }
 })
-
---- testing rebuilding that module above with the builder pattern
-JaVox.CreateModule("combine_soldier_with_builder")
-    :SetDisplayName("Combine Soldier (Builder)")
-    :SetDescription("A builder pattern for creating combine soldier audio modules.")
-    :SetAuthor("Your Name")
-    :RegisterCategory("weaponry", {
-        ["reload"] = {
-            priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-            audioFiles = {
-                "npc/combine_soldier/vo/coverme.wav",
-                "npc/combine_soldier/vo/cover.wav",
-                "npc/combine_soldier/vo/displace.wav",
-                "npc/combine_soldier/vo/dash.wav",
-            },
-            delay = {
-                min = 0.1,
-                max = 0.2,
-            },
-            throttle = {
-                after = 1,
-                min = 2,
-                max = 4,
-            },
-        },
-
-        ["grenadeOut"] = {
-            priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
-            audioFiles = {
-                "npc/combine_soldier/vo/dagger.wav",
-                "npc/combine_soldier/vo/flash.wav",
-                "npc/combine_soldier/vo/displace.wav",
-                "npc/combine_soldier/vo/dash.wav",
-            },
-            delay = {
-                min = 0.3,
-                max = 0.5,
-            },
-            throttle = {
-                after = 1,
-                min = 3,
-                max = 4,
-            },
-        }
-    })
-    :RegisterCategory("ents", {
-        ["kill"] = {
-            priority = AudioPriority.PLAY_IMMEDIATE,
-            audioFiles = {
-                "npc/combine_soldier/vo/kill.wav",
-            },
-            delay = {
-                min = 0.1,
-                max = 0.2,
-            },
-            throttle = {
-                after = 1,
-                min = 2,
-                max = 4,
-            },
-        }
-    })
-    :RegisterCallout("Ready Weapons", "callouts.readyweapons")
-    :RegisterCallout("Stay Alert", "callouts.stayalert")
-    :RegisterCallout("Standing By", "callouts.standingby")
