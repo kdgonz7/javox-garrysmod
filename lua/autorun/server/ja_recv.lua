@@ -20,3 +20,9 @@ net.Receive("JaVox_EmitCallout", function(len, ply)
     local calloutName = net.ReadString()
     JaVox.Director:emitCalloutFromPlayer(ply, calloutName)
 end)
+
+-- /action/emit/[name]
+net.Receive("JaVox_EmitAction", function(len, ply)
+    local actionName = net.ReadString()
+    JaVox.Director:emitActionFromPlayer(ply, actionName)
+end)
