@@ -10,7 +10,6 @@
 ---@field pitch number The pitch of the sound.
 ---@field duration number The duration of the sound.
 ---@field delay number The delay before the sound is played.
----@field tailEndBreath number The duration of the tail end breath after the sound. Adds to the duration.
 
 ---@class PlayerMeta
 ---@field Queue table<QueueItem>
@@ -46,7 +45,10 @@ function JaVox.Scheduler:Enqueue(ply, item)
     item.startTime = math.max(CurTime(), playerEntry.nextAvailableTime) + (item.delay or 0)
 
     table.insert(self.Players[ply:EntIndex()].Queue, item)
-    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration + (item.tailEndBreath or 0)
+
+    -- new: use throttle instead of tailEndBreath. have to update elsewhere.
+    local tailend = item.throttle and math.random(item.throttle.min, item.throttle.max)
+    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration + (tailend or 0)
 end
 
 function JaVox.Scheduler:Dequeue(plyEntIndex)
