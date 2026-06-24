@@ -50,7 +50,8 @@ end
 ---@param moduleObj PlayerVoxModule
 ---@param action string
 ---@return PlayerVoxAction|JaVoxError?
-function JaVox.Crud:resolveActions(moduleObj, action)
+function JaVox.Crud:resolveActions(moduleObj, action, fallbackToAbove)
+    if fallbackToAbove == nil then fallbackToAbove = true end
     if ! action then return print("action null in resolve") end
 
     --- @cast action string
@@ -64,30 +65,63 @@ function JaVox.Crud:resolveActions(moduleObj, action)
         return x and x.audioFiles ~= nil
     end
 
-    -- if it's like
-    -- 'reload'
-    if isModule(moduleObj.actions[actParts[1]]) then
-        ---@diagnostic disable-next-line: return-type-mismatch
-        return moduleObj.actions[actParts[1]]
-    end
-
-    if #actParts == 1 then
-        return JaVox:errorWithMessage("No action of " .. actParts[1] .. " found.")
-    end
-
-    -- we either have:
-    -- acts.reload
-    -- or something like
-    -- ''
-
     local i = 1
     local potentialModule = moduleObj.actions[actParts[i]]
+    local fallbackModule = nil
 
+    -- ["self"] ["damage"] ["fall"]
+    -- 1        2          3
+    -- i starts at 1. if i isn't a module, we fail to resolve it and return.
+    -- we increment i.
+    -- potentialModule = potentialModule[actParts[i]]
+    -- if the potential module is a module, we break out of the loop.
+    -- if not, we move to 2
     while i <= #actParts do
-        if not potentialModule then return print("failed to resolve " .. action) end
-        i = i + 1
+        if not potentialModule then                    -- no module in existence
+            if fallbackToAbove and fallbackModule then -- if fallback is enabled and we have a fallback module
+                return fallbackModule                  -- if we have a fallback module, we can use it
+            end
+
+            -- otherwise we fail to resolve the action
+            return print("failed to resolve " .. action)
+        end
+
+        i =
+            i +
+            1 -- increment to next part (assume we have a valid action with potentialModule = moduleObj.actions[actParts[i]])
+
+        if isModule(potentialModule) and i > #actParts then
+            -- if we have a valid module, and i is already out of bounds, we are done.
+            -- we have a module! yay.
+            break
+        end
+
+        fallbackModule = potentialModule
+        -- we move to the next part of the action
         potentialModule = potentialModule[actParts[i]]
-        if isModule(potentialModule) then break end
+
+        -- if we have a module
+        if isModule(potentialModule) then
+            -- ok so now we have ["damage"], but not yet ["fall"].
+            -- so what do we do? check the next part of the action and see if it's a module.
+            if i + 1 > #actParts then
+                -- there are no more parts to resolve. we are done.
+                break
+            end
+
+            -- check the next part of the action
+            local potentialChildModule = potentialModule[actParts[i + 1]]
+
+            -- if that's a module, we can jump into it
+            if isModule(potentialChildModule) then
+                fallbackModule = potentialModule       -- set fallback module to the current module
+                potentialModule = potentialChildModule -- change to new potential
+                i = i + 1                              -- move to the next part of the action
+                continue
+            end
+
+            break
+        end
     end
 
     --- @cast potentialModule PlayerVoxAction
