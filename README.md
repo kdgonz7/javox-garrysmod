@@ -28,6 +28,7 @@ A small breakdown:
 - `JaVox.Crud`: Manages CRUD operations for the JaVox system.
 - `JaVox.Scheduler/Timeline`: Manages audio placement and playing
 - `JaVox.FSBuilder`: The JaVox functionality responsible for building FS-based action packs.
+- `JaVox.Speaker`: (module-borne) manages when a player is speaking.
 
 ### JaVox Default Action Modules
 
