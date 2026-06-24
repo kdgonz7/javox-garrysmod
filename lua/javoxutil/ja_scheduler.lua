@@ -26,7 +26,7 @@ JaVox.Scheduler = JaVox.Scheduler or {
 function JaVox.Scheduler:ClearQueue(plyEntIndex)
     if not self.Players[plyEntIndex] then return end
     for i = 1, #self.Players[plyEntIndex].Queue do
-        local activeSoundForPlayer = self.Players[plyEntIndex].Queue[i].activeSound
+        local activeSoundForPlayer = self.Players[plyEntIndex].activeSound
         if not activeSoundForPlayer then continue end
         Entity(plyEntIndex):StopSound(activeSoundForPlayer)
     end
@@ -107,6 +107,7 @@ hook.Add("Think", "JaVoxScheduler", function()
             if not ply then continue end
             if not ply:IsValid() then
                 JaVox.Scheduler:ClearFromQueue(entIndex)
+                continue
             end
 
             ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
