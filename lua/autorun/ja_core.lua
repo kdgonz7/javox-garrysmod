@@ -1,9 +1,23 @@
 --- @class JaVoxCore
-JaVox = {
+JaVox = JaVox or {
 	vox = {},
 	binds = {},
 	modules = {},
+	globals = {}
 } -- pure, nude javox.            lol
+
+JaVox.globals = {
+	GlobalThrottleModifier = CreateConVar("javox_global_throttle_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global throttle modifier for JaVox"),
+	GlobalVolumeModifier = CreateConVar("javox_global_volume_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global volume modifier for JaVox"),
+	GlobalPitchModifier = CreateConVar("javox_global_pitch_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global pitch modifier for JaVox"),
+	GlobalReachModifier = CreateConVar("javox_global_reach_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global reach modifier for JaVox"),
+	GlobalDelayModifier = CreateConVar("javox_global_delay_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global delay modifier for JaVox"),
+}
 
 local JaVoxLogColor = Color(236, 102, 13)
 
@@ -22,8 +36,6 @@ local function loadFileGlob(dirName, color, typeOfFile)
 			"\n")
 	end
 end
-
-
 
 --- Registers a module with a given payload into the global JaVox object. Note to future developers, or myself:
 --- These **have** to be questionable because lua is unsafe and gmod developers just wanna have fun.
