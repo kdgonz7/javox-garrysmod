@@ -1,3 +1,7 @@
+-- JaVox sound engine???
+-- whatever. all it does is play sounds for players.
+-- and has a simple rule: stop last sound before playing a new one.
+
 local activeChannels = {}
 
 net.Receive("JaVoxPlayerPlay", function(len)
