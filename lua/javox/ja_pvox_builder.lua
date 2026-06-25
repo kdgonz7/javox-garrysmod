@@ -10,7 +10,7 @@
 --- * death -> self.die
 --- * enemy_killed -> ents.entKillGeneric
 --- * enemy_spotted -> ents.entSpottedGeneric
---- * frag_out -> weaponry.grenadeOut
+--- * frag_out -> weaponry.grenade_out
 --- * inspect -> self.talkMess
 --- * pickup_weapon -> self.pickup.weapon
 --- * take_damage -> self.takeDamage
@@ -75,7 +75,7 @@ local function loadPVOX()
                     audioFiles = readAllAudioFilesFromDir("pvox/" .. dirname .. "/actions/reload/"),
                 },
 
-                ["grenadeOut"] = {
+                ["grenade_out"] = {
                     priority = AudioPriority.PLAY_ONCE_WITHOUT_DEFERRAL,
                     audioFiles = readAllAudioFilesFromDir("pvox/" .. dirname .. "/actions/frag_out/"),
                 },

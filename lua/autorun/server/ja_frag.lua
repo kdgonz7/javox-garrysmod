@@ -17,7 +17,7 @@ hook.Add("KeyPress", "JaVOX Frag Out", function(ply, key)
         local weap = ply:GetActiveWeapon()
         if ! IsValid(weap) then return end
         if table.HasValue(GRENADES, weap:GetPrimaryAmmoType()) then
-            JaVox.Director:emitActionFromPlayer(ply, "weaponry.grenadeOut")
+            JaVox.Director:emitActionFromPlayer(ply, "weaponry.grenade_out")
         end
     end
 end)
