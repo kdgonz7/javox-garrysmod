@@ -28,7 +28,11 @@ net.Receive("JaVoxPlayerPlay", function(len)
     local patch = CreateSound(ply, targetSound)
 
     if dsp ~= -1 then
+        ---@cast ply Player
         patch:SetDSP(dsp)
+    else
+        ---@cast ply Player
+        patch:SetDSP(1)
     end
 
     patch:Play()
