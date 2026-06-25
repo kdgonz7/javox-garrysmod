@@ -48,7 +48,8 @@ function JaVox.Scheduler:Enqueue(ply, item)
 
     -- new: use throttle instead of tailEndBreath. have to update elsewhere.
     local tailend = item.throttle and math.random(item.throttle.min, item.throttle.max)
-    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration + (tailend or 0)
+    self.Players[ply:EntIndex()].nextAvailableTime = item.startTime + item.duration +
+        ((tailend or 0)) * JaVox.globals.GlobalThrottleModifier:GetFloat()
 end
 
 function JaVox.Scheduler:Dequeue(plyEntIndex)

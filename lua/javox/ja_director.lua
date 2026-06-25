@@ -138,23 +138,21 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         end
     end
 
-
     local durationOfSound = SoundDuration(soundToPlay)
     if durationOfSound <= 0 then durationOfSound = 1.0 end
 
     -- new time architecture:
     local queueItem = {
         targetSound = soundToPlay,
-        volume = actionObject.volume or 100,
-        pitch = actionObject.pitch or 100,
+        volume = (actionObject.volume or 100) * JaVox.globals.GlobalVolumeModifier:GetFloat(),
+        pitch = (actionObject.pitch or 100) * JaVox.globals.GlobalPitchModifier:GetFloat(),
         duration = durationOfSound,
-        delay = waitTime,
+        delay = waitTime * JaVox.globals.GlobalDelayModifier:GetFloat(),
         throttle = actionObject.throttle or {
             min = 1,
             max = 3,
         }
     }
-
 
     actionObject.priority = actionObject.priority or JaVox.Director.sensibleDefaults.priority
 
