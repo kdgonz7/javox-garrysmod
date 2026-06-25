@@ -53,6 +53,7 @@ AudioPriority = {
 --- @field actions table<string, PlayerVoxAction|any> The actions that can be ran by this module. Functions provide abstractions to access these. Note that actions are designed to be expanded upon, and follow an `any in any out` architecture. A vox module can define an abstract vocal execution and have another addon of the same owner run it.
 --- @field callouts table<string, string>
 --- @field tags? string[] Tags for the module.
+--- @field patterns table<string, string>? A table of patterns used by the JaVox system. Packs can register patterns like `^ents\.kill\.` to redirect actions.
 
 --- @class JavoLuaModule
 --- @field name string

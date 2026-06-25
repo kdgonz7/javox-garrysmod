@@ -28,7 +28,7 @@ end
 
 ---Returns `action` from the given `moduleName`. Can potentially return nil so result should be verified.
 ---@param moduleName string?
----@param action string?
+---@param action string
 ---@return PlayerVoxAction|JaVoxError?
 function JaVox.Crud:getActionFromModule(moduleName, action, useFallbacks)
     if ! moduleName then return JaVox:errorWithMessage(string.format("potential access missing module param.")) end
@@ -41,6 +41,10 @@ function JaVox.Crud:getActionFromModule(moduleName, action, useFallbacks)
     local moduleObj = JaVox.vox[moduleName]
     if ! moduleObj then return JaVox:errorWithMessage(string.format("Module '%s' not found.", moduleName)) end
 
+    local redirectedAction = self:resolvePatternMatch(moduleObj, action)
+    if redirectedAction then
+        action = redirectedAction
+    end
 
     ---@diagnostic disable-next-line: param-type-mismatch
     return self:resolveActions(moduleObj, action, useFallbacks)
@@ -179,4 +183,25 @@ function JaVox.Crud:loadPlayermodelBinds(ply)
     if not binds then return end
 
     JaVox.binds = util.JSONToTable(binds)
+end
+
+--- Loops through registered patterns to find a regex match for the action string
+---@param moduleObj table
+---@param action string
+---@return string|nil The redirected action name, or nil if no match
+function JaVox.Crud:resolvePatternMatch(moduleObj, action)
+    -- note: this one pattern essentially creates a scripting interface for actions.
+    -- note: you can intercept just about any action with this system.
+
+    if not moduleObj.patterns then return nil end --- no patterns
+    if not action then return nil end
+
+    print("Checking patterns for action: " .. action)         -- check action
+    for pattern, targetAction in pairs(moduleObj.patterns) do -- for pattern in the patterns
+        if string.match(action, pattern) then                 -- if action matches
+            return targetAction                               -- return
+        end
+    end
+
+    return nil
 end

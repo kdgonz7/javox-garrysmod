@@ -29,6 +29,7 @@ local defaults = {
 --- @field description string? The description of the module.
 --- @field tags string[]? Tags for the module.
 --- @field defaults PlayerVoxAction Default values for the module's actions.
+--- @field patterns table? Patterns for the module.
 
 --- Builds a vox pack from a filesystem directory.
 --- @param options JaVoxFSBuilderOptions
@@ -46,7 +47,8 @@ function JaVox.FSBuilder:BuildFromFilesystem(options)
         description = options.description or "A JaVox pack.",
         actions = {},
         callouts = {},
-        tags = options.tags or {}
+        tags = options.tags or {},
+        patterns = options.patterns or {}
     }
 
     ---Iterate directory and gather audio files, as well as subdirectory actions.
