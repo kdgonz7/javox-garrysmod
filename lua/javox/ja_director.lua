@@ -151,7 +151,8 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         throttle = actionObject.throttle or {
             min = 1,
             max = 3,
-        }
+        },
+        dsp = actionObject.dsp or -1
     }
 
     actionObject.priority = actionObject.priority or JaVox.Director.sensibleDefaults.priority

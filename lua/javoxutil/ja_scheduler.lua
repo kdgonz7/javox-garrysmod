@@ -117,6 +117,7 @@ hook.Add("Think", "JaVoxScheduler", function()
             net.WriteString(dq.targetSound)
             net.WriteFloat(dq.volume)
             net.WriteFloat(dq.pitch)
+            net.WriteInt(dq.dsp or -1, 32)
             net.Broadcast()
 
             ply:EmitSound("common/null.wav", dq.volume, dq.pitch, 1, CHAN_VOICE)

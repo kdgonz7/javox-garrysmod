@@ -24,6 +24,7 @@ AudioPriority = {
 --- @field reach number? How far the sound reaches. Default 100.
 --- @field delay DelaySettings? How much the sound should delay.
 --- @field throttle ThrottleSettings? Settings for defining a sound's throttle action.
+--- @field dsp number? The DSP effect to apply to the sound. Default is -1 (no effect).
 
 --- @class ThrottleSettings
 --- @field min number The minimum amount of time it will throttle for.
