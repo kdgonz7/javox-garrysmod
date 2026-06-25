@@ -1,3 +1,5 @@
+"Words mean more than what is set down on paper. It takes the human voice to infuse them with deeper meaning." — Maya
+
 # JaVOX Callout Engine
 
 JaVox is the next iteration of PVox. It was originally meant to be a write-over that was fully compatible, but then turned into something that became more complex than the original and therefore couldn't be placed within the same bracket.
@@ -26,6 +28,7 @@ There are a lot of features of JaVox, and it has a pretty standard set of defaul
 - **Minimal hook usage**: essentially compatible with MOST Garry's Mod addons, not a single hook's return value is overridden.
 - **Configuration on the developer side and user side, with more to come**: customization-focused VOX engine, so a majority of modules can be customized and soon convar modifiers for VOICES as well.
 - **Interface galore**: two major interfaces for two major features: Playermodel binding and voice pack selection.
+- **Modifiers**: Server operators/admins can modify JaVox's default modifiers (all at 1) and get some unique... and sometimes ugly... voice results!
 
 # PLEASE READ
 
@@ -44,3 +47,5 @@ To find JaVox information go to the JaVox spawnmenu tool tab. There you'll find 
 - **TFA-VOX**: one of the primary VOX engine players
 - **PVOX**: my previous Frankenstein of a project.
 - **Those who contributed issues to PVox**: those helped to build this new addon as well.
+
+![pic](https://i.imgur.com/9runEZK.png)
