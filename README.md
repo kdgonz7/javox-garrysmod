@@ -52,6 +52,34 @@ A small breakdown:
 - `JaVox.FSBuilder`: The JaVox functionality responsible for building FS-based action packs.
 - `JaVox.Speaker`: (module-borne) manages when a player is speaking.
 
+## 🛠️ Action Scripting (v1.1.2+)
+
+JaVox `v1.1.2` introduces the `patterns` field. You can define patterns directly inside your modules or inject them dynamically via `registerModule`.
+
+Instead of manually mapping dozens of individual entity actions, you can now use **Lua string patterns** to route multiple dynamic events into a single, consolidated action.
+
+---
+
+### Example: The Zombie Consolidation
+
+If you have a core voice line configured for `ents.kill.npc_zombie`, you can automatically catch all default zombie variants (like fast and poison variants) and route them to that exact action:
+
+```lua
+patterns = {
+    -- Redirects all variation zombie kills to the base zombie action
+    ["^ents%.kill%.npc_.*zombie"] = "ents.kill.npc_zombie",
+}
+```
+
+#### How it routes in practice:
+- ents.kill.npc_zombie ➡️ ents.kill.npc_zombie (Exact match)
+- ents.kill.npc_fastzombie ➡️ ents.kill.npc_zombie (Pattern match)
+- ents.kill.npc_poisonzombie ➡️ ents.kill.npc_zombie (Pattern match)
+
+This opens up a large ecosystem scaling, allowing your sound packs to **natively support custom addon entities** without writing a single new line of code.
+
+> ⚠️ PERFORMANCE WARNING: Do not abuse this mechanism. Use it primarily for event consolidation. Exact lookups are instant (O(1) hash lookups), whereas patterns require a sequential evaluation loop. Keep your pattern tables lean and clean!
+
 ### JaVox Default Action Modules
 
 - `ja_arc9_jam.lua` -> (beware: slightly spammy) ARC9 weapon jamming support
@@ -116,7 +144,6 @@ The differences are:
 - `ja_pvox_builder.lua` -> a flat, one-way translator for old PVOX packs.
 - `ja_builder.lua` -> a modern-day builder pattern for creating VOX packs.
 - `JaVox:registerModule(id, payload)` -> The "classic" and most feature-dense way of creating a module.
-
 
 ## Credits
 
