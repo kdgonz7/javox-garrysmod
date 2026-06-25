@@ -12,6 +12,8 @@ local cvJaVoxResetThreshold = CreateConVar("javox_reset_threshold", "6", { FCVAR
     "Distance threshold for resetting spotted flag")
 local cvJaVoxSendToAllPlayers = CreateConVar("javox_send_to_all_players", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
     "Send spotted entity notifications to all players")
+local cvJaVoxEnableLost = CreateConVar("javox_enable_lost", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+    "Enable JaVox entity lost actions")
 
 --- @class ServerEntQueue A queue that manages spotted entities.
 --- @field Entities table<number, EntitySpotMetadata>
@@ -131,6 +133,10 @@ end)
 -- a certain distance threshold is exceeded
 ---Reset the spotted flag for an entity if it has not been seen in a while
 hook.Add("Think", "JaVox_ResetSpottedFlag", function()
+    if not cvJaVoxEnableLost:GetBool() then
+        return
+    end
+
     local currentTime = CurTime()
 
     for _, ent in ipairs(ents.GetAll()) do

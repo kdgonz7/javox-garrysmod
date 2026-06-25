@@ -87,6 +87,7 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
                 panel:Help("Settings for spotting enemies and resetting thresholds.")
                 panel:CheckBox("Enable Enemy Spotting", "javox_enable_spotting")
                 panel:NumSlider("Reset Threshold", "javox_reset_threshold", 0, 100, 0)
+                panel:CheckBox("Enable Lost Actions", "javox_enable_lost")
                 panel:Help("")
             end
             -- javox_spotted_lost_animation_duration -> number
