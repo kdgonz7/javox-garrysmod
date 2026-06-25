@@ -17,5 +17,10 @@ JaVox.FSBuilder:BuildFromFilesystem({
             min = 2,
             max = 5
         }
+    },
+
+    -- patterns are new ways to redirect actions based on regex matching
+    patterns = {
+        ["^ents\\.kill\\.npc_.*zombie"] = "ents.kill.zombie",
     }
 })
