@@ -56,7 +56,7 @@ hook.Add("KeyPress", "JaVox No ammo callout when firing", function(ply, key)
             return
         end
 
-        if ammoType == -1 then
+        if ammoType == -1 or ammoType == 10 then
             return
         end
 
