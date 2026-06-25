@@ -162,4 +162,18 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
                 panel:CheckBox("Enable Module Saving", "javox_saving_enabled")
             end
         end)
+
+    spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Modules", "JaVox_Mod_Settings", "Settings", "", "",
+        function(panel)
+            panel:Clear()
+            local ply = LocalPlayer()
+            if ply:IsAdmin() then
+                panel:Help("Global settings for JaVox.")
+                panel:NumSlider("Global Throttle Modifier", "javox_global_throttle_modifier", 0, 2, 2)
+                panel:NumSlider("Global Volume Modifier", "javox_global_volume_modifier", 0, 2, 2)
+                panel:NumSlider("Global Pitch Modifier", "javox_global_pitch_modifier", 0, 2, 2)
+                panel:NumSlider("Global Reach Modifier", "javox_global_reach_modifier", 0, 2, 2)
+                panel:NumSlider("Global Delay Modifier", "javox_global_delay_modifier", 0, 2, 2)
+            end
+        end)
 end)
