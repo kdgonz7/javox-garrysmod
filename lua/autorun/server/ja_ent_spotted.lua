@@ -1,3 +1,4 @@
+---@diagnostic disable: inject-field
 util.AddNetworkString("JaVox_EntLost")
 util.AddNetworkString("JaVox_EntSpotted")
 
@@ -151,30 +152,54 @@ hook.Add("Think", "JaVox_ResetSpottedFlag", function()
 
         local spotter = ServerEntQueue:GetSpotter(ent)
 
-        if ! IsValid(spotter) then
+        if not IsValid(spotter) then
             ServerEntQueue:Reset(ent)
             continue
         end
 
-        if ServerEntQueue:IsSpotted(ent) then      -- ent is registered
-            if spotter:Visible(ent) then           -- if visible
-                ServerEntQueue:UpdateLastSeen(ent) -- we still see em
+        if spotter:Visible(ent) then
+            ServerEntQueue:UpdateLastSeen(ent)
+            ent.JaVox_LKP = nil
+            continue
+        end
+
+        local timeSinceLastSeen = currentTime - ServerEntQueue:GetLastSeen(ent)
+
+        if timeSinceLastSeen > cvJaVoxResetThreshold:GetInt() then
+            if not ent.JaVox_LKP then
+                ent.JaVox_LKP = ent:GetPos()
+            end
+
+            if ent:GetPos():Distance(ent.JaVox_LKP) < 400 then
                 continue
             end
 
-            local timeSinceLastSeen = currentTime - ServerEntQueue:GetLastSeen(ent) -- time since last seen
-            if timeSinceLastSeen > cvJaVoxResetThreshold:GetInt() then              -- if time since last seen exceeds threshold
-                ServerEntQueue:Reset(ent)                                           -- reset it. we lost em.
-                net.Start("JaVox_EntLost")
-                net.WriteEntity(ent)
-                net.Send(spotter)
+            local toLKP = (ent.JaVox_LKP - spotter:GetShootPos()):GetNormalized()
+            local lookPercentage = spotter:GetAimVector():Dot(toLKP)
 
-                JaVox.Director:emitActionFromPlayer(spotter, "ents.lost") -- emit lost action
-                continue
+            if lookPercentage > 0.82 then
+                -- note: check if staring into wall
+                local tr = util.TraceLine({
+                    start = spotter:GetShootPos(),
+                    endpos = ent.JaVox_LKP,
+                    filter = spotter
+                })
+
+                if not tr.HitWorld then
+                    ent.JaVox_LKP = nil        -- wipe pos
+                    ServerEntQueue:Reset(ent)  -- reset queue
+
+                    net.Start("JaVox_EntLost") -- start client msg
+                    net.WriteEntity(ent)       -- ent
+                    net.Send(spotter)          -- play
+
+                    JaVox.Director:emitActionFromPlayer(spotter, "ents.lost")
+                end
             end
         end
     end
 end)
+
 hook.Add("EntityTakeDamage", "JaVox_EntityTakeDamage", function(ent, dmginfo)
     if not isSomething(ent) then return end
     if not ServerEntQueue:IsSpotted(ent) then return end
