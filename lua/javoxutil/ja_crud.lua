@@ -196,7 +196,6 @@ function JaVox.Crud:resolvePatternMatch(moduleObj, action)
     if not moduleObj.patterns then return nil end --- no patterns
     if not action then return nil end
 
-    print("Checking patterns for action: " .. action)         -- check action
     for pattern, targetAction in pairs(moduleObj.patterns) do -- for pattern in the patterns
         if string.match(action, pattern) then                 -- if action matches
             return targetAction                               -- return
