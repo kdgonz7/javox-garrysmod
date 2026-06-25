@@ -5,6 +5,7 @@ net.Receive("JaVoxPlayerPlay", function(len)
     local targetSound = net.ReadString()
     local volume = net.ReadFloat()
     local pitch = net.ReadFloat()
+    local dsp = net.ReadInt(32)
 
     if not IsValid(ply) then return end
 
@@ -20,30 +21,15 @@ net.Receive("JaVoxPlayerPlay", function(len)
         print("new sound for player: " .. ply:EntIndex())
     end
 
-    sound.PlayFile("sound/" .. targetSound, "3d noplay", function(channel, errorID, errorName)
-        if not IsValid(channel) then
-            print("Failed to play sound: " .. errorName)
-            print("Error ID: " .. errorID)
-            print("sound: sound/" .. targetSound)
+    local patch = CreateSound(ply, targetSound)
 
-            activeChannels[ply:EntIndex()] = nil
-            print("cleared active channel for player: " .. ply:EntIndex())
-            hook.Remove("Think", channel)
-            return
-        end
+    if dsp ~= -1 then
+        patch:SetDSP(dsp)
+    end
 
-        channel:SetVolume(volume / 100)
-        channel:SetPlaybackRate(pitch / 100)
-        channel:Play()
-        metadata.LatestChannel = channel
+    patch:Play()
+    patch:ChangeVolume(volume / 100)
+    patch:ChangePitch(pitch)
 
-        hook.Add("Think", channel, function()
-            if not IsValid(ply) or not ply:Alive() then
-                hook.Remove("Think", channel)
-                return
-            end
-
-            channel:SetPos(ply:GetPos())
-        end)
-    end)
+    metadata.LatestChannel = patch
 end)
