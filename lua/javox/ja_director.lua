@@ -156,6 +156,10 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
 
     actionObject.priority = actionObject.priority or JaVox.Director.sensibleDefaults.priority
 
+    if JaVox.globals.PrintEveryActionPlayed:GetBool() then
+        print("Playing action: " .. name)
+    end
+
     JaVox.Scheduler:EnsureScheduled(player:EntIndex())
     -- Priority selector:
     --      deferral  : will set next in queue
