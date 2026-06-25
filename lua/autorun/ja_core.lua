@@ -6,6 +6,8 @@ JaVox = JaVox or {
 	globals = {}
 } -- pure, nude javox.            lol
 
+JaVox.Version = "1.1.2"
+
 JaVox.globals = {
 	GlobalThrottleModifier = CreateConVar("javox_global_throttle_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
 		"Global throttle modifier for JaVox"),
