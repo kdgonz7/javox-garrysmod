@@ -1,3 +1,7 @@
+if SERVER then
+    util.AddNetworkString("JaVoxPlayerPlay")
+end
+
 -- JaVox Scheduler
 -- Handles audio delays and play times.
 -- Direct replacement for the dual-timer architecture.
@@ -26,6 +30,7 @@ function JaVox.Scheduler:ClearQueue(plyEntIndex)
     if not self.Players[plyEntIndex] then return end
     local player = self.Players[plyEntIndex]
 
+    -- FIXME: this technically doesn't work. the sound engine wrapper handles it now.
     if player.activeSound then
         Entity(plyEntIndex):StopSound(player.activeSound)
     end
@@ -90,17 +95,11 @@ hook.Add("Think", "JaVoxScheduler", function()
     for entIndex, _ in pairs(JaVox.Scheduler.Players) do
         local item = JaVox.Scheduler:Peek(entIndex)
         if not item then continue end
-        -- print("start", item.startTime)
-        -- print("currnt", CurTime())
 
         if CurTime() >= item.startTime then
             local dq = JaVox.Scheduler:Dequeue(entIndex)
             if not dq then continue end
             -- Play the sound or perform the action
-
-            -- print("Play sound:", dq.targetSound)
-            -- print("Volume:", dq.volume)
-            -- print("Pitch:", dq.pitch)
 
             local ply = Entity(entIndex)
             --- @cast ply Player
@@ -110,7 +109,21 @@ hook.Add("Think", "JaVoxScheduler", function()
                 continue
             end
 
-            ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
+
+            -- ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
+
+            net.Start("JaVoxPlayerPlay")
+            net.WriteEntity(ply)
+            net.WriteString(dq.targetSound)
+            net.WriteFloat(dq.volume)
+            net.WriteFloat(dq.pitch)
+            net.Broadcast()
+
+            ply:EmitSound("common/null.wav", dq.volume, dq.pitch, 1, CHAN_VOICE)
+
+            -- 3. Direct AI Alert
+            sound.EmitHint(SOUND_PLAYER, ply:GetPos() + Vector(0, 0, 64), 500, dq.duration or 1.5, ply)
+
             JaVox.Scheduler.Players[entIndex].activeSound = dq.targetSound
         end
     end
