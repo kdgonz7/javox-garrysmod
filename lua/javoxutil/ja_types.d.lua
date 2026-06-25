@@ -42,6 +42,7 @@ AudioPriority = {
 --- @field vox table<string, PlayerVoxModule>
 --- @field binds table<string, string>
 --- @field modules table<string, JavoLuaModule>
+--- @field globals table<string,ConVar> A table of global ConVars used by the JaVox system.
 
 
 --- @class PlayerVoxModule Defines a JaVox player vocal module.
