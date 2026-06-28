@@ -1,17 +1,13 @@
--- 1. Create a brand new main tab next to Utilities
 hook.Add("AddToolMenuTabs", "JaVoxMainTab", function()
     -- spawnmenu.AddToolMenuTab( internalName, displayName, icon )
     spawnmenu.AddToolTab("JaVox_Main", "JaVox", "icon16/sound.png")
 end)
 
--- 2. Create the subcategories inside our new main tab
 hook.Add("AddToolMenuCategories", "JaVoxCustomCategories", function()
-    -- spawnmenu.AddToolCategory( mainTabInternalName, internalSubName, displayName )
     spawnmenu.AddToolCategory("JaVox_Main", "JaVox_Interfaces", "Interfaces")
     spawnmenu.AddToolCategory("JaVox_Main", "JaVox_Modules", "Modules")
 end)
 
--- 3. Populate everything
 hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Interfaces", "JaVox_ModuleManager", "Module Manager", "", "",
         function(panel)
@@ -24,6 +20,19 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
             button:DockMargin(0, 10, 0, 10)
             button.DoClick = function()
                 RunConsoleCommand("javox_vox_mgr")
+            end
+        end)
+    spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Interfaces", "JaVox_RPModifier", "RP SUPER Modifier", "", "",
+        function(panel)
+            panel:Clear()
+            panel:Help("Manage the core JaVox modules and systems.")
+
+            local button = vgui.Create("DButton", panel)
+            button:SetText("Open JaVox RP Modifier")
+            button:Dock(TOP)
+            button:DockMargin(0, 10, 0, 10)
+            button.DoClick = function()
+                RunConsoleCommand("javox_rp_modifier")
             end
         end)
 
