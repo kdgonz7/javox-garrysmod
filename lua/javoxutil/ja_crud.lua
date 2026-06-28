@@ -50,13 +50,34 @@ function JaVox.Crud:getActionFromModule(moduleName, action, useFallbacks)
     return self:resolveActions(moduleObj, action, useFallbacks)
 end
 
----comment
----@param moduleObj PlayerVoxModule
----@param action string
----@return PlayerVoxAction|JaVoxError?
+--- Resolves nested action hierarchies using dot notation (e.g., "damage.fall").
+--- Traverses the module's action tree, supporting multi-level nested modules.
+---
+--- Algorithm behavior:
+--- 1. Direct lookup: Returns action immediately if found at top level
+--- 2. Dot notation: Splits action by "." and traverses nested structure (e.g., ["damage"]["fall"])
+--- 3. Fallback mechanism (when fallbackToAbove=true):
+---    - Stores the last valid module encountered during traversal
+---    - If traversal fails mid-path, returns the last valid module instead of nil
+---    - Useful for partial resolution when full path doesn't exist
+--- 4. Early termination: Stops traversal when reaching a module with no further children
+---
+--- Examples:
+--- - "damage" → direct lookup in actions table
+--- - "damage.fall" → traverse to actions["damage"], then to ["fall"]
+--- - "self.damage.fall" → multi-level traversal with fallback to "damage" if "fall" missing (when fallbackToAbove=true)
+---
+---@param moduleObj PlayerVoxModule The module containing the actions table
+---@param action string The action string to resolve (supports dot notation for nesting)
+---@param fallbackToAbove boolean? If true, returns last valid module when path can't be fully resolved. Defaults to true.
+---@return PlayerVoxAction|JaVoxError? Returns the resolved action or module, nil if unresolvable and fallback disabled
 function JaVox.Crud:resolveActions(moduleObj, action, fallbackToAbove)
     if fallbackToAbove == nil then fallbackToAbove = true end
     if ! action then return print("action null in resolve") end
+    if type(action) ~= "string" then return print("action must be a string") end
+    if moduleObj.actions[action] then
+        return moduleObj.actions[action]
+    end
 
     --- @cast action string
     local actParts = string.Split(action, ".")
