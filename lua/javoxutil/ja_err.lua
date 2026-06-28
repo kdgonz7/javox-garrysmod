@@ -7,8 +7,9 @@ if ! JaVox then return end;
 ---@param errorPayload? JaVoxError
 ---@return JaVoxError?
 function JaVox:errorWithMessage(msg, errorPayload)
-    print(string.format("[JaVox at %s]: Error: %s", tostring(os.time()), msg))
-
+    if JaVox.error then
+        print(string.format("[JaVox at %s]: Error: %s", tostring(os.time()), msg))
+    end
     return errorPayload or {
         ["errorId"] = "JAVOX_ERROR",
         ["errorMessage"] = msg

@@ -108,7 +108,7 @@ function JaVox.Crud:resolveActions(moduleObj, action, fallbackToAbove)
             end
 
             -- otherwise we fail to resolve the action
-            return print("failed to resolve " .. action)
+            return
         end
 
         i =

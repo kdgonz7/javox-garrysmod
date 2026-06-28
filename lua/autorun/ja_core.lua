@@ -3,7 +3,8 @@ JaVox = JaVox or {
 	vox = {},
 	binds = {},
 	modules = {},
-	globals = {}
+	globals = {},
+	error = false,
 } -- pure, nude javox.            lol
 
 JaVox.Version = "1.1.4"
