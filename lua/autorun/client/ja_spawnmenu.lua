@@ -25,7 +25,7 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
     spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Interfaces", "JaVox_RPModifier", "RP SUPER Modifier", "", "",
         function(panel)
             panel:Clear()
-            panel:Help("Manage the core JaVox modules and systems.")
+            panel:Help("The RP (recursive parameter) modifier allows you to modify ANY parameter of ANY module.")
 
             local button = vgui.Create("DButton", panel)
             button:SetText("Open JaVox RP Modifier")
