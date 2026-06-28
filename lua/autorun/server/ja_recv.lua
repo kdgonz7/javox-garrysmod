@@ -3,6 +3,7 @@
 
 util.AddNetworkString("JaVox_EmitCallout")
 util.AddNetworkString("JaVox_ChangePlayerPreset")
+util.AddNetworkString("JaVox_SyncRPModifiers")
 -- util.AddNetworkString("JaVox_SetPlayermodelBind")
 
 -- /preset/[id]
@@ -25,4 +26,12 @@ end)
 net.Receive("JaVox_EmitAction", function(len, ply)
     local actionName = net.ReadString()
     JaVox.Director:emitActionFromPlayer(ply, actionName)
+end)
+
+-- /action/sync/[name]
+net.Receive("JaVox_SyncRPModifiers", function(len, ply)
+    local modName = net.ReadString()
+    local modifiers = net.ReadTable()
+    -- FIXME: experimental
+    JaVox.vox[modName] = modifiers
 end)
