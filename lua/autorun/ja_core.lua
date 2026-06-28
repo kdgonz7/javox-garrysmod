@@ -6,7 +6,7 @@ JaVox = JaVox or {
 	globals = {}
 } -- pure, nude javox.            lol
 
-JaVox.Version = "1.1.2"
+JaVox.Version = "1.1.4"
 
 JaVox.globals = {
 	GlobalThrottleModifier = CreateConVar("javox_global_throttle_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
@@ -19,8 +19,10 @@ JaVox.globals = {
 		"Global reach modifier for JaVox"),
 	GlobalDelayModifier = CreateConVar("javox_global_delay_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
 		"Global delay modifier for JaVox"),
+	GlobalChanceModifier = CreateConVar("javox_global_chance_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
+		"Global chance modifier for JaVox."),
 	PrintEveryActionPlayed = CreateConVar("javox_print_every_action_played", "0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
-		"Print every action played to the console. Useful for debugging state.")
+		"Print every action played to the console. Useful for debugging state."),
 }
 
 local JaVoxLogColor = Color(236, 102, 13)

@@ -175,6 +175,7 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
                 panel:NumSlider("Global Pitch Modifier", "javox_global_pitch_modifier", 0, 2, 2)
                 panel:NumSlider("Global Reach Modifier", "javox_global_reach_modifier", 0, 2, 2)
                 panel:NumSlider("Global Delay Modifier", "javox_global_delay_modifier", 0, 2, 2)
+                panel:NumSlider("Global Chance Modifier", "javox_global_chance_modifier", 0, 1, 1.0)
             end
         end)
 end)

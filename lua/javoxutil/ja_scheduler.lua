@@ -109,6 +109,15 @@ hook.Add("Think", "JaVoxScheduler", function()
                 continue
             end
 
+            -- apply the global chance modifier
+            -- NOTE: this is here because if you put it in the director, it can be spammed until it plays. brute forced into a deterministic playing.
+            -- NOTE: so here, this only plays once when the queue permits, therefore it's safer.
+            -- TODO: tell other devs do not put shit in director
+            if JaVox.globals.GlobalChanceModifier:GetFloat() < 1.0 then
+                if math.random() > JaVox.globals.GlobalChanceModifier:GetFloat() then
+                    return
+                end
+            end
 
             -- ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
 
