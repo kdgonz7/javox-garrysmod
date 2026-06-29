@@ -72,22 +72,6 @@ function JaVox:registerLuaModule(mod)
 	JaVox.modules[mod.name] = mod
 end
 
----Registers a caption to be used by JaVox caption system.
----@param audioName string?
----@param audioCaption string?
----@param duration number?
-function JaVox:registerCaption(audioName, audioCaption, duration)
-	if ! (audioName and audioCaption and duration) then
-		return
-	end
-
-	if not self.captions then self.captions = {} end
-	self.captions[audioName] = {
-		text = audioCaption,
-		duration = duration,
-	}
-end
-
 -- for things like AudioPriority where addons will use it,
 -- we will load javoxutil before loading javox/ files,
 -- and that's where crud, director, etc. will go.
