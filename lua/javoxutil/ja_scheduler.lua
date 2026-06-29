@@ -134,6 +134,9 @@ hook.Add("Think", "JaVoxScheduler", function()
 
             sound.EmitHint(SOUND_PLAYER, ply:GetPos() + Vector(0, 0, 64), 500, dq.duration or 1.5, ply)
             JaVox.Scheduler.Players[entIndex].activeSound = dq.targetSound
+
+            -- run hook for play sound
+            hook.Run("JaVox_PlaySound", ply, dq, ply:GetNWString(JAVOX_PRESET))
         end
     end
 end)
