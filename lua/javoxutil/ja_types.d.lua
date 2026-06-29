@@ -41,10 +41,14 @@ AudioPriority = {
 --- meant to execute jaVox upon a particular action.
 --- @class JaVoxCore
 --- @field vox table<string, PlayerVoxModule>
---- @field binds table<string, string>
---- @field modules table<string, JavoLuaModule>
+--- @field binds table<string, string> A table of player-specific binds (used only clientside)
 --- @field globals table<string,ConVar> A table of global ConVars used by the JaVox system.
+--- @field captions table<string, Caption> A table of captions.
+--- @field modules table<string, JavoLuaModule> [DEPRECATED] A table of lua modules
 
+--- @class Caption
+--- @field text string
+--- @field duration number
 
 --- @class PlayerVoxModule Defines a JaVox player vocal module.
 --- @field displayName string The display name of the module
