@@ -157,7 +157,7 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
             if ply:IsAdmin() then
                 panel:Help("Settings for reloading weapons.")
                 panel:CheckBox("Enable Reload Actions", "javox_reload_action_enabled")
-                panel:CheckBox("Enable Out of Ammo Actions", "javox_out_of_ammo_action_enabled")
+                panel:CheckBox("Enable Out of Ammo Actions", "javox_no_ammo_left_action_enabled")
                 panel:CheckBox("Enable No Ammo Left Actions", "javox_no_ammo_left_action_enabled")
             end
         end)
