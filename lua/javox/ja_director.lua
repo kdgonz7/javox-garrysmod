@@ -125,7 +125,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         print("[JaVox internal] Found action available. Running")
     end
 
-    if ! soundToPlay then return print(name, "not a sound") end
+    if ! soundToPlay then return end
     --- @cast soundToPlay string
 
     -- Delay & Chance to not play setup
