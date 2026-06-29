@@ -4,7 +4,8 @@
 util.AddNetworkString("JaVox_EmitCallout")
 util.AddNetworkString("JaVox_ChangePlayerPreset")
 util.AddNetworkString("JaVox_SyncRPModifiers")
--- util.AddNetworkString("JaVox_SetPlayermodelBind")
+util.AddNetworkString("JaVox_EmitAction")
+util.AddNetworkString("JaVox_EmitCallout")
 
 -- /preset/[id]
 net.Receive("JaVox_ChangePlayerPreset", function(len, ply)
