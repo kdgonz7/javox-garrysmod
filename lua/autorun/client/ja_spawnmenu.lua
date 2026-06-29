@@ -51,6 +51,19 @@ hook.Add("PopulateToolMenu", "CustomMenuSettings", function()
                 RunConsoleCommand("javox_pm_selector")
             end
         end)
+    spawnmenu.AddToolMenuOption("JaVox_Main", "JaVox_Interfaces", "JaVox_Keybindings", "Keybinds", "", "",
+        function(panel)
+            panel:Clear()
+            panel:Help("Configure keybinds for certain actions.")
+
+            local button = vgui.Create("DButton", panel)
+            button:SetText("Open Keybind Configurator")
+            button:Dock(TOP)
+            button:DockMargin(0, 10, 0, 10)
+            button.DoClick = function()
+                RunConsoleCommand("javox_open_bind_menu")
+            end
+        end)
 
 
     -- MODULE CONFIG CATEGORY
