@@ -147,6 +147,10 @@ function JaVox.State:clearThrottle(playerIndex)
 end
 
 function JaVox.State:playerIsThrottling(playerIndex)
+    if not self.players[playerIndex] or not self.players[playerIndex].throttleState then
+        return
+    end
+
     return self.players[playerIndex].throttleState.isThrottling
 end
 
