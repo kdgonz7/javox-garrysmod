@@ -115,11 +115,12 @@ hook.Add("Think", "JaVoxScheduler", function()
             -- TODO: tell other devs do not put shit in director
             if JaVox.globals.GlobalChanceModifier:GetFloat() < 1.0 then
                 if math.random() > JaVox.globals.GlobalChanceModifier:GetFloat() then
+                    if JaVox.globals.PrintEveryActionPlayed:GetBool() then
+                        print("[JaVox internal] Action chance did not yield good.")
+                    end
                     return
                 end
             end
-
-            -- ply:EmitSound(dq.targetSound, dq.volume, dq.pitch)
 
             net.Start("JaVoxPlayerPlay")
             net.WriteEntity(ply)
@@ -131,9 +132,7 @@ hook.Add("Think", "JaVoxScheduler", function()
 
             ply:EmitSound("common/null.wav", dq.volume, dq.pitch, 1, CHAN_VOICE)
 
-            -- 3. Direct AI Alert
             sound.EmitHint(SOUND_PLAYER, ply:GetPos() + Vector(0, 0, 64), 500, dq.duration or 1.5, ply)
-
             JaVox.Scheduler.Players[entIndex].activeSound = dq.targetSound
         end
     end

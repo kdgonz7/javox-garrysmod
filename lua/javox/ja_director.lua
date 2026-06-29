@@ -65,10 +65,16 @@ function JaVox.Director:emitActionFromPlayer(player, actionName)
             playerPreset, actionName))
     end
 
+
+
     if JaVox:isError(actionObject) then
         --- note to other devs: don't do this, but i've verified above clearly.
         ---@diagnostic disable-next-line: return-type-mismatch
         return actionObject
+    end
+
+    if JaVox.globals.PrintEveryActionPlayed:GetBool() then
+        print("[JaVox internal] Found action available. Running")
     end
 
     ---cuz it rlly aint
@@ -95,7 +101,6 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     local soundToPlay = nil
     local playerEntIndex = player:SteamID64()
 
-
     -- Audio file selector:
     --      Audio files are string -> Use it
     --      Audio files are string[] -> Grab a random one
@@ -113,7 +118,11 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
     --  If player throttling then end emittion
     --  FIXME: maybe put this in the first function instead
     if JaVox.State:playerIsThrottling(playerEntIndex) then
-        return
+        return print("throttling")
+    end
+
+    if JaVox.globals.PrintEveryActionPlayed:GetBool() then
+        print("[JaVox internal] Found action available. Running")
     end
 
     if ! soundToPlay then return print(name, "not a sound") end
@@ -138,6 +147,10 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         end
     end
 
+    if JaVox.globals.PrintEveryActionPlayed:GetBool() then
+        print("[JaVox internal] All checks passed.")
+    end
+
     local durationOfSound = SoundDuration(soundToPlay)
     if durationOfSound <= 0 then durationOfSound = 1.0 end
 
@@ -146,7 +159,7 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
         targetSound = soundToPlay,
         volume = (actionObject.volume or 100) * JaVox.globals.GlobalVolumeModifier:GetFloat(),
         pitch = (actionObject.pitch or 100) * JaVox.globals.GlobalPitchModifier:GetFloat(),
-        duration = durationOfSound,
+        duration = durationOfSound ~= 60 and durationOfSound or 1.5,
         delay = waitTime * JaVox.globals.GlobalDelayModifier:GetFloat(),
         throttle = actionObject.throttle or {
             min = 1,
@@ -159,9 +172,11 @@ function JaVox.Director:_emitActionWithPriorityContract(player, actionObject, na
 
     if JaVox.globals.PrintEveryActionPlayed:GetBool() then
         print("Playing action: " .. name)
+        PrintTable(queueItem)
     end
 
     JaVox.Scheduler:EnsureScheduled(player:EntIndex())
+
     -- Priority selector:
     --      deferral  : will set next in queue
     --      oncew/od  : will ignore any requests until sound is done (no more playing)
