@@ -33,6 +33,7 @@ hook.Add("KeyPress", "JaVox_KeyPress_Reload", function(ply, key)
     local ammoType = activeWeapon.GetPrimaryAmmoType and activeWeapon:GetPrimaryAmmoType() or -1
     local reserveAmmo = ammoType ~= -1 and ply:GetAmmoCount(ammoType) or 0
 
+
     if reserveAmmo <= 0 then
         if not javox_no_ammo_left_action_enabled:GetBool() then return end
         JaVox.Director:emitActionFromPlayer(ply, "weaponry.out_of_ammo")
@@ -52,6 +53,7 @@ hook.Add("KeyPress", "JaVox No ammo callout when firing", function(ply, key)
 
         local activeWeapon = ply:GetActiveWeapon()
         local ammoType = activeWeapon.GetPrimaryAmmoType and activeWeapon:GetPrimaryAmmoType() or -1
+
         if not IsValid(activeWeapon) then
             return
         end
