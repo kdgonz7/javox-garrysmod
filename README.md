@@ -7,10 +7,14 @@ A contextual dialogue engine that originally began as a rewrite of PVox, but exp
 ### Global JV Object
 
 ```lua
-JaVox = {
+--- @class JaVoxCore
+JaVox = JaVox or {
 	vox = {},
 	binds = {},
 	modules = {},
+	globals = {},
+	captions = {},
+	error = false,
 } -- pure, nude javox.            lol
 ```
 
@@ -20,6 +24,8 @@ A small breakdown:
 - `vox` manages the vox modules.
 - `binds` manages playermodel binds
 - `modules` manages the lua module system. **Potentially will receive a deletion**
+- `globals` contains convars
+- `captions` contains audio-to-caption bindings
 
 ### JaVox Default Actions
 
@@ -144,6 +150,10 @@ The differences are:
 - `ja_pvox_builder.lua` -> a flat, one-way translator for old PVOX packs.
 - `ja_builder.lua` -> a modern-day builder pattern for creating VOX packs.
 - `JaVox:registerModule(id, payload)` -> The "classic" and most feature-dense way of creating a module.
+
+### JaVox Hooks
+
+- `JaVox_PlaySound(ply, payload, module)` called with the player, the player's module, and the module string itself. Ran whenever a sound is "meant" to be playing. This doesn't necessarily mean it's playing as the behavior is split between two different files, `scheduler` and `handle_sounds.lua`
 
 ## Credits
 

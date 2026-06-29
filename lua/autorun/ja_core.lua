@@ -4,10 +4,11 @@ JaVox = JaVox or {
 	binds = {},
 	modules = {},
 	globals = {},
+	captions = {},
 	error = false,
 } -- pure, nude javox.            lol
 
-JaVox.Version = "1.1.4"
+JaVox.Version = "1.1.7"
 
 JaVox.globals = {
 	GlobalThrottleModifier = CreateConVar("javox_global_throttle_modifier", "1.0", { FCVAR_ARCHIVE, FCVAR_NOTIFY },
